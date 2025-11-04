@@ -2,6 +2,7 @@ import React from "react";
 import { FaPlus, FaSearch, FaCloud, FaTshirt } from "react-icons/fa";
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope } from "react-icons/fa";
 import "../styling/home.css";
+import { Link } from "react-router-dom";
 import hero from "../images/hero.png";
 import logo from "../images/logo.png";
 const HomePage = () => {
@@ -13,10 +14,20 @@ const HomePage = () => {
           <span className="brand-name">aanjhanaa</span>
         </div>
         <ul className="nav-links">
-          <li>Home</li>
-          <li>Add Customer</li>
-          <li>Update Customer</li>
-          <li>View Customers</li>
+          <li>
+             <Link to="/" className="nav-item">Home</Link>
+          </li>
+          <li>
+             <Link to="/add-size" className="nav-item">Add Customer</Link>
+          </li>
+          <li>
+            <Link to="/update-customer" className="nav-item">Update Customer</Link>
+          </li>
+          <li>
+            <Link to="/view-customer" className="nav-item">
+                View Customers
+                </Link>
+          </li>
           <li>Search</li>
         </ul>
       </nav>
@@ -24,8 +35,9 @@ const HomePage = () => {
       <section className="hero">
         <img src={hero} alt="Hero" className="hero-image" />
         <h1 className="hero-text">Save Customer Sizes Effortlessly and Accurately</h1>
+        <Link to="/add-size" style={{ textDecoration: "none", color: "inherit" }}>
         <button class="cssbuttons-io-button">
-          Get started
+         Get started
           <div class="icon">
             <svg
               height="24"
@@ -41,6 +53,7 @@ const HomePage = () => {
             </svg>
           </div>
         </button>
+        </Link>
       </section>
 
       <section className="features">

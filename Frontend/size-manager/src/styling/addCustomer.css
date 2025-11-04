@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Mea+Culpa&family=Zalando+Sans+SemiExpanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+
+.add-size-container {
+  max-width: 650px;
+  margin: 50px auto;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  font-family: "Zalando Sans SemiExpanded", sans-serif;
+}
+
+
+.add-size-container h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #000;
+  font-weight: 600;
+}
+
+
+.add-size-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.trouser-fields{
+    margin-right: 15px;
+}
+
+
+.add-size-form label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.add-size-form input,
+.add-size-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  outline: none;
+  transition: border 0.3s ease;
+}
+
+.add-size-form input:focus,
+.add-size-form select:focus {
+  border: 1px solid #000;
+}
+
+.add-size-form button {
+  background-color: #000;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.add-size-form button:hover {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+
+.category-section {
+  margin-top: 20px;
+  background-color: #f8f8f8;
+  border-left: 4px solid #000;
+  padding: 25px;
+  border-radius: 8px;
+}
+
+.category-section h3 {
+  margin-bottom: 20px;
+  color: #000;
+  text-align: center;
+}
+
+
+.trouser-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 30px;
+}
+
+.trouser-grid div {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-size-button{
+    margin-top: 20px;
+}
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px 30px;
+}
+
+.fields-grid div {
+  display: flex;
+  flex-direction: column;
+}
+
+.select-category{
+    font-weight: 600;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: black;
+  font-weight: 7    00;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #9d9b9b;
+}
+
+
+
+@media (max-width: 915px) {
+  .add-size-container {
+    width: 90%;
+    padding: 25px;
+  }
+
+  .trouser-grid {
+    grid-template-columns: 1fr;
+  }
+}
