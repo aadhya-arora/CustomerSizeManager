@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../styling/addCustomer.css";
 import { Link } from "react-router-dom";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaEnvelope } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
 import logo from "../images/logo.png";
 
 const AddCustomerSize = () => {
@@ -318,22 +318,30 @@ const AddCustomerSize = () => {
           <div className="footer-links">
             <h4>Quick Links</h4>
             <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Add Customer</a></li>
-              <li><a href="#">Update Customer</a></li>
-              <li><a href="#">View Customers</a></li>
+              <li>
+                 <Link to="/" className="nav-item">Home</Link>
+              </li>
+              <li>
+                <Link to="/add-size" className="nav-item">Add Customer</Link>
+              </li>
+              <li>
+                <Link to="/update-customer" className="nav-item">Update Customer</Link>
+              </li>
+              <li>
+                <Link to="/view-customer" className="nav-item">View Customers</Link>
+              </li>
             </ul>
           </div>
 
           <div className="footer-contact">
             <h4>Contact</h4>
-            <p>Email: support@raanjhanaa.com</p>
-            <p>Phone: +91 98765 43210</p>
+            <p>Email: raanjhanaa13@gmail.com</p>
+            <p>Phone: +91 734-7278272</p>
+            <p>Phone: +91 98786 41457</p>
             <div className="social-icons">
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaLinkedinIn /></a>
-              <a href="mailto:support@raanjhanaa.com"><FaEnvelope /></a>
+              <a href="https://www.facebook.com/raanjhanaa.amritsar/"><FaFacebookF /></a>
+              <a href="https://www.instagram.com/raanjhanaa_amritsar/?hl=en"><FaInstagram /></a>
+              <a href="mailto:raanjhanaa13@gmail.com"><FaEnvelope /></a>
             </div>
           </div>
         </div>
