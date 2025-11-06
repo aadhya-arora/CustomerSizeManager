@@ -6,6 +6,7 @@ import logo from "../images/logo.png";
 
 const AddCustomerSize = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [category, setCategory] = useState("");
 
   const [trouserData, setTrouserData] = useState({
@@ -71,6 +72,7 @@ const AddCustomerSize = () => {
 
     const payload = {
       phoneNumber,
+      customerName,
       category,
       ...(category === "trouser"
         ? trouserData
@@ -82,7 +84,7 @@ const AddCustomerSize = () => {
     console.log("Submitted Data:", payload);
     alert(`Size details added for ${category.toUpperCase()} of ${phoneNumber}`);
 
- 
+    setCustomerName("");
     setPhoneNumber("");
     setCategory("");
     setTrouserData({
@@ -161,7 +163,6 @@ const AddCustomerSize = () => {
 
   return (
     <div>
-    
       <nav className="navbar">
         <div className="logo-section">
           <img src={logo} alt="Raanjhana Logo" className="logo" />
@@ -169,16 +170,24 @@ const AddCustomerSize = () => {
         </div>
         <ul className="nav-links">
           <li>
-            <Link to="/" className="nav-item">Home</Link>
+            <Link to="/" className="nav-item">
+              Home
+            </Link>
           </li>
           <li>
-            <Link to="/add-size" className="nav-item">Add Customer</Link>
+            <Link to="/add-size" className="nav-item">
+              Add Customer
+            </Link>
           </li>
-          <li><Link to="/update-customer" className="nav-item">Update Customer</Link></li>
+          <li>
+            <Link to="/update-customer" className="nav-item">
+              Update Customer
+            </Link>
+          </li>
           <li>
             <Link to="/view-customer" className="nav-item">
-                View Customers
-                </Link>
+              View Customers
+            </Link>
           </li>
           <li>Search</li>
         </ul>
@@ -198,12 +207,23 @@ const AddCustomerSize = () => {
             required
           />
 
+          <label htmlFor="name">Customer Name</label>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter customer's name"
+            value={customerName}
+            onChange={(e) => setCustomerName(e.target.value)}
+            required
+          />
+
           <label htmlFor="category">Select Category</label>
           <select
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
-            required className="select-category"
+            required
+            className="select-category"
           >
             <option value="">-- Select Category --</option>
             <option value="trouser">Trouser</option>
@@ -214,12 +234,13 @@ const AddCustomerSize = () => {
             <option value="waistcoat">Waist Coat</option>
           </select>
 
-       
           {category === "trouser" && (
             <div className="category-section">
               <h3>Trouser Measurements</h3>
 
-              <label htmlFor="pleats" className="trouser-fields">Pleats</label>
+              <label htmlFor="pleats" className="trouser-fields">
+                Pleats
+              </label>
               <select
                 id="pleats"
                 name="pleats"
@@ -251,11 +272,11 @@ const AddCustomerSize = () => {
             </div>
           )}
 
-     
           {["sherwani", "kurta", "shirt", "coat"].includes(category) && (
             <div className="category-section">
               <h3>
-                {category.charAt(0).toUpperCase() + category.slice(1)} Measurements
+                {category.charAt(0).toUpperCase() + category.slice(1)}{" "}
+                Measurements
               </h3>
 
               <div className="fields-grid">
@@ -277,7 +298,6 @@ const AddCustomerSize = () => {
             </div>
           )}
 
-        
           {category === "waistcoat" && (
             <div className="category-section">
               <h3>Waist Coat Measurements</h3>
@@ -307,7 +327,6 @@ const AddCustomerSize = () => {
         </form>
       </div>
 
-   
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
@@ -319,16 +338,24 @@ const AddCustomerSize = () => {
             <h4>Quick Links</h4>
             <ul>
               <li>
-                 <Link to="/" className="nav-item">Home</Link>
+                <Link to="/" className="nav-item">
+                  Home
+                </Link>
               </li>
               <li>
-                <Link to="/add-size" className="nav-item">Add Customer</Link>
+                <Link to="/add-size" className="nav-item">
+                  Add Customer
+                </Link>
               </li>
               <li>
-                <Link to="/update-customer" className="nav-item">Update Customer</Link>
+                <Link to="/update-customer" className="nav-item">
+                  Update Customer
+                </Link>
               </li>
               <li>
-                <Link to="/view-customer" className="nav-item">View Customers</Link>
+                <Link to="/view-customer" className="nav-item">
+                  View Customers
+                </Link>
               </li>
             </ul>
           </div>
@@ -339,9 +366,15 @@ const AddCustomerSize = () => {
             <p>Phone: +91 734-7278272</p>
             <p>Phone: +91 98786 41457</p>
             <div className="social-icons">
-              <a href="https://www.facebook.com/raanjhanaa.amritsar/"><FaFacebookF /></a>
-              <a href="https://www.instagram.com/raanjhanaa_amritsar/?hl=en"><FaInstagram /></a>
-              <a href="mailto:raanjhanaa13@gmail.com"><FaEnvelope /></a>
+              <a href="https://www.facebook.com/raanjhanaa.amritsar/">
+                <FaFacebookF />
+              </a>
+              <a href="https://www.instagram.com/raanjhanaa_amritsar/?hl=en">
+                <FaInstagram />
+              </a>
+              <a href="mailto:raanjhanaa13@gmail.com">
+                <FaEnvelope />
+              </a>
             </div>
           </div>
         </div>
