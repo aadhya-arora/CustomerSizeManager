@@ -14,11 +14,67 @@ const UpdateCustomer = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Updated Data:", { phone, category, trouserType, ...formData });
-    alert("Customer size updated successfully!");
+ const handleSubmit = (e) => {
+  e.preventDefault();
+
+  const payload = {
+    phoneNumber: phone,
+    category,
+    trouserType,
+    ...formData,
   };
+
+  let endpoint = "";
+  switch (category.toLowerCase()) {
+    case "trouser":
+      endpoint = "http://localhost:8080/api/trouser/update";
+      break;
+    case "kurta":
+      endpoint = "http://localhost:8080/api/kurta/update";
+      break;
+    case "shirt":
+      endpoint = "http://localhost:8080/api/shirt/update";
+      break;
+    case "coat":
+      endpoint = "http://localhost:8080/api/coat/update";
+      break;
+    case "sherwani":
+      endpoint = "http://localhost:8080/api/sherwani/update";
+      break;
+    case "waistcoat":
+      endpoint = "http://localhost:8080/api/waistcoat/update";
+      break;
+    default:
+      alert("Please select a valid category!");
+      return;
+  }
+
+  fetch(endpoint, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to update customer");
+      }
+      return res.text();
+    })
+    .then(() => {
+      alert("Customer size updated successfully!");
+
+      // ✅ Reset the form after success
+      setPhone("");
+      setCategory("");
+      setTrouserType("");
+      setFormData({});
+    })
+    .catch((err) => {
+      console.error("Update failed:", err);
+      alert("Failed to update customer. Please try again.");
+    });
+};
+
 
   return (
     <div>

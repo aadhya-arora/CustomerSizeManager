@@ -1,19 +1,19 @@
 package com.raanjhana.repository;
 
-import com.raanjhana.model.WaistCoatSize;
+import com.raanjhana.model.WaistcoatSize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WaistCoatRepository {
+public class WaistcoatRepository {
     
      @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<WaistCoatSize> mapper = (rs, rowNum) -> {
-        WaistCoatSize w = new WaistCoatSize();
+    private final RowMapper<WaistcoatSize> mapper = (rs, rowNum) -> {
+        WaistcoatSize w = new WaistcoatSize();
         w.setPhoneNumber(rs.getString("phone_number"));
         w.setLength(rs.getDouble("length"));
         w.setChest(rs.getDouble("chest"));
@@ -25,18 +25,18 @@ public class WaistCoatRepository {
         return w;
     };
 
-    public int save(WaistCoatSize w) {
+    public int save(WaistcoatSize w) {
         String sql = "INSERT INTO waistcoat_sizes (phone_number, length, chest, gap, waist, hips, shoulder, neck) VALUES (?,?,?,?,?,?,?,?)";
         return jdbcTemplate.update(sql, w.getPhoneNumber(), w.getLength(), w.getChest(), w.getGap(), w.getWaist(),
                 w.getHips(), w.getShoulder(), w.getNeck());
     }
 
-    public WaistCoatSize findByPhone(String phone) {
+    public WaistcoatSize findByPhone(String phone) {
         String sql = "SELECT * FROM waistcoat_sizes WHERE phone_number = ?";
         return jdbcTemplate.query(sql, mapper, phone).stream().findFirst().orElse(null);
     }
 
-    public int update(WaistCoatSize w) {
+    public int update(WaistcoatSize w) {
         String sql = "UPDATE waistcoat_sizes SET length=?, chest=?, gap=?, waist=?, hips=?, shoulder=?, neck=? WHERE phone_number=?";
         return jdbcTemplate.update(sql, w.getLength(), w.getChest(), w.getGap(), w.getWaist(), w.getHips(),
                 w.getShoulder(), w.getNeck(), w.getPhoneNumber());

@@ -72,7 +72,6 @@ const AddCustomerSize = () => {
 
     const payload = {
       phoneNumber,
-      customerName,
       category,
       ...(category === "trouser"
         ? trouserData
@@ -81,47 +80,90 @@ const AddCustomerSize = () => {
         : upperWearData),
     };
 
-    console.log("Submitted Data:", payload);
-    alert(`Size details added for ${category.toUpperCase()} of ${phoneNumber}`);
+    let endpoint = "";
+    switch (category) {
+      case "trouser":
+        endpoint = "http://localhost:8080/api/trouser/add";
+        break;
+      case "kurta":
+        endpoint = "http://localhost:8080/api/kurta/add";
+        break;
+      case "shirt":
+        endpoint = "http://localhost:8080/api/shirt/add";
+        break;
+      case "coat":
+        endpoint = "http://localhost:8080/api/coat/add";
+        break;
+      case "sherwani":
+        endpoint = "http://localhost:8080/api/sherwani/add";
+        break;
+      case "waistcoat":
+        endpoint = "http://localhost:8080/api/waistcoat/add";
+        break;
+      default:
+        alert("Please select a valid category!");
+        return;
+    }
 
-    setCustomerName("");
-    setPhoneNumber("");
-    setCategory("");
-    setTrouserData({
-      pleats: "",
-      length: "",
-      waist: "",
-      il: "",
-      hips: "",
-      thigh: "",
-      r: "",
-      knee: "",
-      calf: "",
-      bottom: "",
-    });
-    setUpperWearData({
-      length: "",
-      chest: "",
-      gap: "",
-      waist: "",
-      hips: "",
-      shoulder: "",
-      sleeve: "",
-      bicep: "",
-      elbow: "",
-      cuff: "",
-      cb: "",
-      neck: "",
-    });
-    setWaistCoatData({
-      length: "",
-      chest: "",
-      gap: "",
-      waist: "",
-      hips: "",
-      shoulder: "",
-      neck: "",
-    });
+    fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to add customer");
+        }
+        return res.text();
+      })
+      .then(() => {
+        alert(
+          `Size details added for ${category.toUpperCase()} of ${phoneNumber}`
+        );
+
+        // ✅ Reset form after success
+        setPhoneNumber("");
+        setCategory("");
+        setTrouserData({
+          pleats: "",
+          length: "",
+          waist: "",
+          il: "",
+          hips: "",
+          thigh: "",
+          r: "",
+          knee: "",
+          calf: "",
+          bottom: "",
+        });
+        setUpperWearData({
+          length: "",
+          chest: "",
+          gap: "",
+          waist: "",
+          hips: "",
+          shoulder: "",
+          sleeve: "",
+          bicep: "",
+          elbow: "",
+          cuff: "",
+          cb: "",
+          neck: "",
+        });
+        setWaistCoatData({
+          length: "",
+          chest: "",
+          gap: "",
+          waist: "",
+          hips: "",
+          shoulder: "",
+          neck: "",
+        });
+      })
+      .catch((err) => {
+        console.error("Error adding customer:", err);
+        alert("Failed to add customer. Please try again.");
+      });
   };
 
   const upperWearFields = [

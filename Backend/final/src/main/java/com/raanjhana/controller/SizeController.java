@@ -5,25 +5,26 @@ import com.raanjhana.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@RequestMapping("/api/sizes")
+@RequestMapping("/api")
 @CrossOrigin(origins = "http://localhost:3000")
 public class SizeController {
-    
+
     @Autowired
     private SizeService sizeService;
 
     @Autowired
     private CustomerService customerService;
 
-    // Add/update trouser size. If customer not exists, create minimal customer entry.
-    @PostMapping("/trouser")
-    public String addTrouser(@RequestBody TrouserSize t) {
-        // ensure customer exists
-        if (customerService.getByPhone(t.getPhoneNumber()) == null) {
-            customerService.addCustomerIfNotExists(new Customer(t.getPhoneNumber(), "Unknown"));
+    private void ensureCustomerExists(String phoneNumber) {
+        if (customerService.getByPhone(phoneNumber) == null) {
+            customerService.addCustomerIfNotExists(new Customer(phoneNumber, "Unknown"));
         }
+    }
+
+    @PostMapping("/trouser/add")
+    public String addTrouser(@RequestBody TrouserSize t) {
+        ensureCustomerExists(t.getPhoneNumber());
         sizeService.addOrUpdateTrouser(t);
         return "Trouser size saved";
     }
@@ -33,12 +34,10 @@ public class SizeController {
         return sizeService.getTrouser(phone);
     }
 
-    // Sherwani
-    @PostMapping("/sherwani")
+
+    @PostMapping("/sherwani/add")
     public String addSherwani(@RequestBody SherwaniSize s) {
-        if (customerService.getByPhone(s.getPhoneNumber()) == null) {
-            customerService.addCustomerIfNotExists(new Customer(s.getPhoneNumber(), "Unknown"));
-        }
+        ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateSherwani(s);
         return "Sherwani size saved";
     }
@@ -48,12 +47,10 @@ public class SizeController {
         return sizeService.getSherwani(phone);
     }
 
-    // Shirt
-    @PostMapping("/shirt")
+  
+    @PostMapping("/shirt/add")
     public String addShirt(@RequestBody ShirtSize s) {
-        if (customerService.getByPhone(s.getPhoneNumber()) == null) {
-            customerService.addCustomerIfNotExists(new Customer(s.getPhoneNumber(), "Unknown"));
-        }
+        ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateShirt(s);
         return "Shirt size saved";
     }
@@ -63,12 +60,9 @@ public class SizeController {
         return sizeService.getShirt(phone);
     }
 
-    // Coat
-    @PostMapping("/coat")
+    @PostMapping("/coat/add")
     public String addCoat(@RequestBody CoatSize s) {
-        if (customerService.getByPhone(s.getPhoneNumber()) == null) {
-            customerService.addCustomerIfNotExists(new Customer(s.getPhoneNumber(), "Unknown"));
-        }
+        ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateCoat(s);
         return "Coat size saved";
     }
@@ -78,27 +72,21 @@ public class SizeController {
         return sizeService.getCoat(phone);
     }
 
-    // Waistcoat
-    @PostMapping("/waistcoat")
-    public String addWaistcoat(@RequestBody WaistCoatSize s) {
-        if (customerService.getByPhone(s.getPhoneNumber()) == null) {
-            customerService.addCustomerIfNotExists(new Customer(s.getPhoneNumber(), "Unknown"));
-        }
+    @PostMapping("/waistcoat/add")
+    public String addWaistcoat(@RequestBody WaistcoatSize s) {
+        ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateWaistcoat(s);
         return "Waistcoat size saved";
     }
 
     @GetMapping("/waistcoat/{phone}")
-    public WaistCoatSize getWaistcoat(@PathVariable String phone) {
+    public WaistcoatSize getWaistcoat(@PathVariable String phone) {
         return sizeService.getWaistcoat(phone);
     }
 
-    
-    @PostMapping("/kurta")
+    @PostMapping("/kurta/add")
     public String addKurta(@RequestBody KurtaSize s) {
-        if (customerService.getByPhone(s.getPhoneNumber()) == null) {
-            customerService.addCustomerIfNotExists(new Customer(s.getPhoneNumber(), "Unknown"));
-        }
+        ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateKurta(s);
         return "Kurta size saved";
     }

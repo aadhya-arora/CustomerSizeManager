@@ -21,7 +21,7 @@ public class SizeService {
     private CoatRepository coatRepo;
 
     @Autowired
-    private WaistCoatRepository waistRepo;
+    private WaistcoatRepository waistRepo;
 
     @Autowired
     private KurtaRepository kurtaRepo;
@@ -67,13 +67,13 @@ public class SizeService {
         return coatRepo.findByPhone(phone);
     }
 
-    public int addOrUpdateWaistcoat(WaistCoatSize s) {
-        WaistCoatSize existing = waistRepo.findByPhone(s.getPhoneNumber());
+    public int addOrUpdateWaistcoat(WaistcoatSize s) {
+        WaistcoatSize existing = waistRepo.findByPhone(s.getPhoneNumber());
         if (existing == null) return waistRepo.save(s);
         else return waistRepo.update(s);
     }
 
-    public WaistCoatSize getWaistcoat(String phone) {
+    public WaistcoatSize getWaistcoat(String phone) {
         return waistRepo.findByPhone(phone);
     }
 

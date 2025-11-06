@@ -1,12 +1,12 @@
 package com.raanjhana.model;
 
-public class WaistCoatSize {
+public class WaistcoatSize {
     
     
     private String phoneNumber;
     private Double length, chest, gap, waist, hips, shoulder, neck;
 
-    public WaistCoatSize() {
+    public WaistcoatSize() {
     }
 
     public String getPhoneNumber() {

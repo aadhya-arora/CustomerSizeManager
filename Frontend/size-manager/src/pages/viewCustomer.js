@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   FaFacebookF,
   FaInstagram,
@@ -12,19 +12,29 @@ import logo from "../images/logo.png";
 const ViewCustomer = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [customers, setCustomers] = useState([]); // ✅ fetched data stored here
 
-  const customers = [
-    { phone: "9876543210", category: "Shirt" },
-    { phone: "9123456789", category: "Trouser" },
-    { phone: "9998887776", category: "Coat" },
-    { phone: "9988776655", category: "Kurta" },
-    { phone: "9090909090", category: "Sherwani" },
-  ];
+  // ✅ Fetch customers from backend API when component loads
+  useEffect(() => {
+    fetch("http://localhost:8080/api/customers/all")
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch customers");
+        }
+        return res.json();
+      })
+      .then((data) => setCustomers(data))
+      .catch((err) => console.error("Error fetching customers:", err));
+  }, []);
 
+  // ✅ Filter search + category
   const filteredCustomers = customers.filter((cust) => {
-    const matchesSearch = cust.phone.includes(searchTerm.trim());
+    const matchesSearch = cust.phoneNumber
+      ?.toLowerCase()
+      .includes(searchTerm.trim().toLowerCase());
     const matchesCategory =
-      selectedCategory === "All" || cust.category === selectedCategory;
+      selectedCategory === "All" ||
+      cust.category?.toLowerCase() === selectedCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
 
@@ -83,7 +93,7 @@ const ViewCustomer = () => {
             <option value="Kurta">Kurta</option>
             <option value="Shirt">Shirt</option>
             <option value="Coat">Coat</option>
-            <option value="Waist coat">Waist coat</option>
+            <option value="Waistcoat">Waist Coat</option>
           </select>
         </div>
       </div>
@@ -101,7 +111,7 @@ const ViewCustomer = () => {
             {filteredCustomers.length > 0 ? (
               filteredCustomers.map((cust, index) => (
                 <tr key={index}>
-                  <td>{cust.phone}</td>
+                  <td>{cust.phoneNumber}</td>
                   <td>{cust.category}</td>
                 </tr>
               ))
