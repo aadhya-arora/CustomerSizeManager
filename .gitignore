@@ -12,6 +12,7 @@ tmp/
 mvnw
 mvnw.cmd
 
+Backend/final/src/main/resources/application.properties
 src/main/resources/application.properties
 
 node_modules/
