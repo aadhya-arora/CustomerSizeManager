@@ -1,9 +1,10 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaFacebookF,
   FaInstagram,
   FaEnvelope,
   FaSearch,
+  FaTimes,
 } from "react-icons/fa";
 import "../styling/viewCustomer.css";
 import { Link } from "react-router-dom";
@@ -12,17 +13,15 @@ import logo from "../images/logo.png";
 const ViewCustomer = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [customers, setCustomers] = useState([]); // ✅ fetched data stored here
+  const [customers, setCustomers] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const [sizeDetails, setSizeDetails] = useState(null);
 
-  // ✅ Fetch customers from backend API when component loads
+  // ✅ Fetch customers
   useEffect(() => {
-    fetch("http://localhost:8080/api/customers/all")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to fetch customers");
-        }
-        return res.json();
-      })
+    fetch("http://localhost:8080/api/customers/all-with-categories")
+      .then((res) => res.json())
       .then((data) => setCustomers(data))
       .catch((err) => console.error("Error fetching customers:", err));
   }, []);
@@ -37,6 +36,25 @@ const ViewCustomer = () => {
       cust.category?.toLowerCase() === selectedCategory.toLowerCase();
     return matchesSearch && matchesCategory;
   });
+
+  // ✅ Function to handle click and show popup
+  const handleRowClick = (cust) => {
+    setSelectedCustomer(cust);
+    setShowPopup(true);
+
+    // Fetch size details dynamically
+    const categoryEndpoint = cust.category.toLowerCase();
+    fetch(`http://localhost:8080/api/${categoryEndpoint}/${cust.phoneNumber}`)
+      .then((res) => res.json())
+      .then((data) => setSizeDetails(data))
+      .catch((err) => console.error("Error fetching size details:", err));
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setSelectedCustomer(null);
+    setSizeDetails(null);
+  };
 
   return (
     <div className="page-container">
@@ -70,32 +88,30 @@ const ViewCustomer = () => {
       </nav>
 
       <div className="search-section">
-        <div className="search-filter-container">
-          <div className="search-bar">
-            <FaSearch className="search-icon" />
-            <input
-              type="text"
-              placeholder="Search by phone number..."
-              className="search-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-
-          <select
-            className="category-filter"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="All">All Categories</option>
-            <option value="Trouser">Trouser</option>
-            <option value="Sherwani">Sherwani</option>
-            <option value="Kurta">Kurta</option>
-            <option value="Shirt">Shirt</option>
-            <option value="Coat">Coat</option>
-            <option value="Waistcoat">Waist Coat</option>
-          </select>
+        <div className="search-bar">
+          <FaSearch className="search-icon" />
+          <input
+            type="text"
+            placeholder="Search by phone number..."
+            className="search-input"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </div>
+
+        <select
+          className="category-filter"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="All">All Categories</option>
+          <option value="Trouser">Trouser</option>
+          <option value="Sherwani">Sherwani</option>
+          <option value="Kurta">Kurta</option>
+          <option value="Shirt">Shirt</option>
+          <option value="Coat">Coat</option>
+          <option value="Waistcoat">Waist Coat</option>
+        </select>
       </div>
 
       <div className="all-customers">
@@ -110,7 +126,11 @@ const ViewCustomer = () => {
           <tbody>
             {filteredCustomers.length > 0 ? (
               filteredCustomers.map((cust, index) => (
-                <tr key={index}>
+                <tr
+                  key={index}
+                  className="clickable-row"
+                  onClick={() => handleRowClick(cust)}
+                >
                   <td>{cust.phoneNumber}</td>
                   <td>{cust.category}</td>
                 </tr>
@@ -125,6 +145,46 @@ const ViewCustomer = () => {
           </tbody>
         </table>
       </div>
+
+      {/* ✅ POPUP MODAL */}
+      {showPopup && selectedCustomer && (
+        <div className="popup-overlay" onClick={closePopup}>
+          <div className="popup-content" onClick={(e) => e.stopPropagation()}>
+            <div className="popup-header">
+              <h3>
+                {selectedCustomer.category} Details for{" "}
+                {selectedCustomer.phoneNumber}
+              </h3>
+              <FaTimes className="close-icon" onClick={closePopup} />
+            </div>
+
+            {sizeDetails ? (
+              <table className="size-table">
+                <thead>
+                  <tr>
+                    {Object.keys(sizeDetails).map((key) => (
+                      <th key={key} className="size-key">
+                        {key}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    {Object.values(sizeDetails).map((value, index) => (
+                      <td key={index} className="size-value">
+                        {value}
+                      </td>
+                    ))}
+                  </tr>
+                </tbody>
+              </table>
+            ) : (
+              <p>Loading size details...</p>
+            )}
+          </div>
+        </div>
+      )}
 
       <footer className="footer">
         <div className="footer-container">

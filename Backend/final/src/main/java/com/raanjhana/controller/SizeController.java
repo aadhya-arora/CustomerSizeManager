@@ -29,11 +29,17 @@ public class SizeController {
         return "Trouser size saved";
     }
 
+    @PutMapping("/trouser/update")
+    public String updateTrouser(@RequestBody TrouserSize t) {
+        ensureCustomerExists(t.getPhoneNumber());
+        sizeService.addOrUpdateTrouser(t);
+        return "Trouser size updated";
+    }
+
     @GetMapping("/trouser/{phone}")
     public TrouserSize getTrouser(@PathVariable String phone) {
         return sizeService.getTrouser(phone);
     }
-
 
     @PostMapping("/sherwani/add")
     public String addSherwani(@RequestBody SherwaniSize s) {
@@ -42,17 +48,30 @@ public class SizeController {
         return "Sherwani size saved";
     }
 
+    @PutMapping("/sherwani/update")
+    public String updateSherwani(@RequestBody SherwaniSize s) {
+        ensureCustomerExists(s.getPhoneNumber());
+        sizeService.addOrUpdateSherwani(s);
+        return "Sherwani size updated";
+    }
+
     @GetMapping("/sherwani/{phone}")
     public SherwaniSize getSherwani(@PathVariable String phone) {
         return sizeService.getSherwani(phone);
     }
 
-  
     @PostMapping("/shirt/add")
     public String addShirt(@RequestBody ShirtSize s) {
         ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateShirt(s);
         return "Shirt size saved";
+    }
+
+    @PutMapping("/shirt/update")
+    public String updateShirt(@RequestBody ShirtSize s) {
+        ensureCustomerExists(s.getPhoneNumber());
+        sizeService.addOrUpdateShirt(s);
+        return "Shirt size updated";
     }
 
     @GetMapping("/shirt/{phone}")
@@ -67,6 +86,13 @@ public class SizeController {
         return "Coat size saved";
     }
 
+    @PutMapping("/coat/update")
+    public String updateCoat(@RequestBody CoatSize s) {
+        ensureCustomerExists(s.getPhoneNumber());
+        sizeService.addOrUpdateCoat(s);
+        return "Coat size updated";
+    }
+
     @GetMapping("/coat/{phone}")
     public CoatSize getCoat(@PathVariable String phone) {
         return sizeService.getCoat(phone);
@@ -79,6 +105,13 @@ public class SizeController {
         return "Waistcoat size saved";
     }
 
+    @PutMapping("/waistcoat/update")
+    public String updateWaistcoat(@RequestBody WaistcoatSize s) {
+        ensureCustomerExists(s.getPhoneNumber());
+        sizeService.addOrUpdateWaistcoat(s);
+        return "Waistcoat size updated";
+    }
+
     @GetMapping("/waistcoat/{phone}")
     public WaistcoatSize getWaistcoat(@PathVariable String phone) {
         return sizeService.getWaistcoat(phone);
@@ -89,6 +122,13 @@ public class SizeController {
         ensureCustomerExists(s.getPhoneNumber());
         sizeService.addOrUpdateKurta(s);
         return "Kurta size saved";
+    }
+
+    @PutMapping("/kurta/update")
+    public String updateKurta(@RequestBody KurtaSize s) {
+        ensureCustomerExists(s.getPhoneNumber());
+        sizeService.addOrUpdateKurta(s);
+        return "Kurta size updated";
     }
 
     @GetMapping("/kurta/{phone}")
