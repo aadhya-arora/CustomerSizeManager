@@ -18,7 +18,7 @@ const ViewCustomer = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [sizeDetails, setSizeDetails] = useState(null);
 
-  // ✅ Fetch customers
+
   useEffect(() => {
     fetch("http://localhost:8080/api/customers/all-with-categories")
       .then((res) => res.json())
@@ -26,7 +26,6 @@ const ViewCustomer = () => {
       .catch((err) => console.error("Error fetching customers:", err));
   }, []);
 
-  // ✅ Filter search + category
   const filteredCustomers = customers.filter((cust) => {
     const matchesSearch = cust.phoneNumber
       ?.toLowerCase()
@@ -37,12 +36,10 @@ const ViewCustomer = () => {
     return matchesSearch && matchesCategory;
   });
 
-  // ✅ Function to handle click and show popup
   const handleRowClick = (cust) => {
     setSelectedCustomer(cust);
     setShowPopup(true);
 
-    // Fetch size details dynamically
     const categoryEndpoint = cust.category.toLowerCase();
     fetch(`http://localhost:8080/api/${categoryEndpoint}/${cust.phoneNumber}`)
       .then((res) => res.json())
@@ -146,7 +143,6 @@ const ViewCustomer = () => {
         </table>
       </div>
 
-      {/* ✅ POPUP MODAL */}
       {showPopup && selectedCustomer && (
         <div className="popup-overlay" onClick={closePopup}>
           <div className="popup-content" onClick={(e) => e.stopPropagation()}>

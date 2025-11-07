@@ -115,13 +115,14 @@ const UpdateCustomer = () => {
           required
         />
 
-        <label>Category</label>
+        <label>Select Category</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           required
+          className="select-category"
         >
-          <option value="">Select Category</option>
+          <option value="">-- Select Category --</option>
           <option value="Trouser">Trouser</option>
           <option value="Sherwani">Sherwani</option>
           <option value="Kurta">Kurta</option>
