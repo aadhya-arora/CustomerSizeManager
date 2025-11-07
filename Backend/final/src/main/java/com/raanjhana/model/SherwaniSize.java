@@ -1,117 +1,135 @@
 package com.raanjhana.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "sherwani_size")
 public class SherwaniSize {
-    
 
-    private String phoneNumber;
-    private Double length, chest, gap, waist, hips, shoulder, sleeve, bicep, elbow, cuff, cb, neck;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public SherwaniSize() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    private double length;
+    private double chest;
+    private double gap;
+    private double waist;
+    private double hips;
+    private double shoulder;
+    private double sleeve;
+    private double bicep;
+    private double elbow;
+    private double cuff;
+    private double cb;
+    private double neck;
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    public SherwaniSize() {}
 
-    public Double getLength() {
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
+
+    public double getLength() {
         return length;
     }
 
-    public void setLength(Double length) {
+    public void setLength(double length) {
         this.length = length;
     }
 
-    public Double getChest() {
+    public double getChest() {
         return chest;
     }
 
-    public void setChest(Double chest) {
+    public void setChest(double chest) {
         this.chest = chest;
     }
 
-    public Double getGap() {
+    public double getGap() {
         return gap;
     }
 
-    public void setGap(Double gap) {
+    public void setGap(double gap) {
         this.gap = gap;
     }
 
-    public Double getWaist() {
+    public double getWaist() {
         return waist;
     }
 
-    public void setWaist(Double waist) {
+    public void setWaist(double waist) {
         this.waist = waist;
     }
 
-    public Double getHips() {
+    public double getHips() {
         return hips;
     }
 
-    public void setHips(Double hips) {
+    public void setHips(double hips) {
         this.hips = hips;
     }
 
-    public Double getShoulder() {
+    public double getShoulder() {
         return shoulder;
     }
 
-    public void setShoulder(Double shoulder) {
+    public void setShoulder(double shoulder) {
         this.shoulder = shoulder;
     }
 
-    public Double getSleeve() {
+    public double getSleeve() {
         return sleeve;
     }
 
-    public void setSleeve(Double sleeve) {
+    public void setSleeve(double sleeve) {
         this.sleeve = sleeve;
     }
 
-    public Double getBicep() {
+    public double getBicep() {
         return bicep;
     }
 
-    public void setBicep(Double bicep) {
+    public void setBicep(double bicep) {
         this.bicep = bicep;
     }
 
-    public Double getElbow() {
+    public double getElbow() {
         return elbow;
     }
 
-    public void setElbow(Double elbow) {
+    public void setElbow(double elbow) {
         this.elbow = elbow;
     }
 
-    public Double getCuff() {
+    public double getCuff() {
         return cuff;
     }
 
-    public void setCuff(Double cuff) {
+    public void setCuff(double cuff) {
         this.cuff = cuff;
     }
 
-    public Double getCb() {
+    public double getCb() {
         return cb;
     }
 
-    public void setCb(Double cb) {
+    public void setCb(double cb) {
         this.cb = cb;
     }
 
-    public Double getNeck() {
+    public double getNeck() {
         return neck;
     }
 
-    public void setNeck(Double neck) {
+    public void setNeck(double neck) {
         this.neck = neck;
     }
 
-
+    // Same setters/getters as KurtaSize
 }

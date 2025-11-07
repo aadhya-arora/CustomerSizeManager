@@ -5,6 +5,7 @@ import {
   FaEnvelope,
   FaSearch,
   FaTimes,
+  FaSpinner,
 } from "react-icons/fa";
 import "../styling/viewCustomer.css";
 import { Link } from "react-router-dom";
@@ -14,37 +15,64 @@ const ViewCustomer = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true); // ✅ loading state
   const [showPopup, setShowPopup] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [sizeDetails, setSizeDetails] = useState(null);
+  const [sizeLoading, setSizeLoading] = useState(false); // ✅ separate popup loading
 
-
+  // ✅ Fetch all customers
   useEffect(() => {
+    setLoading(true);
     fetch("http://localhost:8080/api/customers/all-with-categories")
       .then((res) => res.json())
-      .then((data) => setCustomers(data))
-      .catch((err) => console.error("Error fetching customers:", err));
+      .then((data) => {
+        setCustomers(Array.isArray(data) ? data : []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching customers:", err);
+        setLoading(false);
+      });
   }, []);
 
-  const filteredCustomers = customers.filter((cust) => {
-    const matchesSearch = cust.phoneNumber
-      ?.toLowerCase()
-      .includes(searchTerm.trim().toLowerCase());
-    const matchesCategory =
-      selectedCategory === "All" ||
-      cust.category?.toLowerCase() === selectedCategory.toLowerCase();
-    return matchesSearch && matchesCategory;
-  });
+  // ✅ Filtered data
+  const filteredCustomers = Array.isArray(customers)
+    ? customers.filter((cust) => {
+        const matchesSearch = cust.phoneNumber
+          ?.toLowerCase()
+          .includes(searchTerm.trim().toLowerCase());
+        const matchesCategory =
+          selectedCategory === "All" ||
+          cust.category?.toLowerCase() === selectedCategory.toLowerCase();
+        return matchesSearch && matchesCategory;
+      })
+    : [];
 
+  // ✅ Handle row click
   const handleRowClick = (cust) => {
     setSelectedCustomer(cust);
     setShowPopup(true);
+    setSizeDetails(null);
+    setSizeLoading(true);
 
     const categoryEndpoint = cust.category.toLowerCase();
-    fetch(`http://localhost:8080/api/${categoryEndpoint}/${cust.phoneNumber}`)
-      .then((res) => res.json())
-      .then((data) => setSizeDetails(data))
-      .catch((err) => console.error("Error fetching size details:", err));
+    const endpoint = `http://localhost:8080/api/sizes/${categoryEndpoint}/${cust.phoneNumber}`;
+
+    fetch(endpoint)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch size details");
+        return res.json();
+      })
+      .then((data) => {
+        setSizeDetails(data || {});
+        setSizeLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching size details:", err);
+        setSizeLoading(false);
+        setSizeDetails({});
+      });
   };
 
   const closePopup = () => {
@@ -55,6 +83,7 @@ const ViewCustomer = () => {
 
   return (
     <div className="page-container">
+      {/* Navbar */}
       <nav className="navbar">
         <div className="logo-section">
           <img src={logo} alt="Raanjhanaa Logo" className="logo" />
@@ -84,6 +113,7 @@ const ViewCustomer = () => {
         </ul>
       </nav>
 
+      {/* Search Section */}
       <div className="search-section">
         <div className="search-bar">
           <FaSearch className="search-icon" />
@@ -111,18 +141,24 @@ const ViewCustomer = () => {
         </select>
       </div>
 
+      {/* Customer Table */}
       <div className="all-customers">
         <h2 className="table-title">Customer Size Details</h2>
-        <table className="customer-table">
-          <thead>
-            <tr>
-              <th>Phone Number</th>
-              <th>Category</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredCustomers.length > 0 ? (
-              filteredCustomers.map((cust, index) => (
+
+        {loading ? (
+          <div className="loading-container">
+            <FaSpinner className="spinner" /> Loading customers...
+          </div>
+        ) : filteredCustomers.length > 0 ? (
+          <table className="customer-table">
+            <thead>
+              <tr>
+                <th>Phone Number</th>
+                <th>Category</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredCustomers.map((cust, index) => (
                 <tr
                   key={index}
                   className="clickable-row"
@@ -131,18 +167,15 @@ const ViewCustomer = () => {
                   <td>{cust.phoneNumber}</td>
                   <td>{cust.category}</td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="2" className="empty-row">
-                  No customers found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="empty-row">No customers found.</p>
+        )}
       </div>
 
+      {/* Popup */}
       {showPopup && selectedCustomer && (
         <div className="popup-overlay" onClick={closePopup}>
           <div className="popup-content" onClick={(e) => e.stopPropagation()}>
@@ -154,41 +187,49 @@ const ViewCustomer = () => {
               <FaTimes className="close-icon" onClick={closePopup} />
             </div>
 
-            {sizeDetails ? (
+            {sizeLoading ? (
+              <div className="loading-container">
+                <FaSpinner className="spinner" /> Loading size details...
+              </div>
+            ) : sizeDetails && Object.keys(sizeDetails).length > 0 ? (
               <table className="size-table">
                 <thead>
                   <tr>
                     {Object.keys(sizeDetails).map((key) => (
-                      <th key={key} className="size-key">
-                        {key}
+                      <th key={key}>
+                        {key
+                          .replace(/([A-Z])/g, " $1")
+                          .replace(/^./, (s) => s.toUpperCase())}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    {Object.values(sizeDetails).map((value, index) => (
+                    {Object.entries(sizeDetails).map(([key, value], index) => (
                       <td key={index} className="size-value">
-                        {value}
+                        {key === "customer"
+                          ? value?.phoneNumber // show just phone number
+                          : value}
                       </td>
                     ))}
                   </tr>
                 </tbody>
               </table>
             ) : (
-              <p>Loading size details...</p>
+              <p>No size details found for this customer.</p>
             )}
           </div>
         </div>
       )}
 
+      {/* Footer */}
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
             <h2 className="brand-name">Raanjhanaa</h2>
             <p className="tagline">Style that fits every story.</p>
           </div>
-
           <div className="footer-links">
             <h4>Quick Links</h4>
             <ul>
@@ -214,7 +255,6 @@ const ViewCustomer = () => {
               </li>
             </ul>
           </div>
-
           <div className="footer-contact">
             <h4>Contact</h4>
             <p>Email: raanjhanaa13@gmail.com</p>
@@ -233,7 +273,6 @@ const ViewCustomer = () => {
             </div>
           </div>
         </div>
-
         <div className="footer-bottom">
           <p>
             © {new Date().getFullYear()}{" "}

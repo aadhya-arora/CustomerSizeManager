@@ -34,13 +34,18 @@ public class CustomerController {
     @Autowired
     private WaistcoatRepository waistcoatRepository;
 
-    // ---------------- Existing CRUD endpoints ---------------- //
+    // ---------------- CRUD ENDPOINTS ---------------- //
 
     @PostMapping("/add")
     public String addCustomer(@RequestBody Customer c) {
         boolean created = service.addCustomerIfNotExists(c);
-        if (created) return "Customer created";
-        else return "Customer already exists";
+        return created ? "Customer created" : "Customer already exists";
+    }
+
+    @PutMapping("/update")
+    public String update(@RequestBody Customer c) {
+        service.updateCustomer(c);
+        return "Customer updated";
     }
 
     @GetMapping("/all")
@@ -50,50 +55,43 @@ public class CustomerController {
 
     @GetMapping("/{phone}")
     public Customer getByPhone(@PathVariable String phone) {
-        return service.getByPhone(phone);
-    }
-
-    @PutMapping("/update")
-    public String update(@RequestBody Customer c) {
-        service.updateCustomer(c);
-        return "Customer updated";
+        return service.getByPhone(phone).orElse(null);
     }
 
     @DeleteMapping("/{phone}")
     public String delete(@PathVariable String phone) {
-        service.delete(phone);
-        return "Customer deleted";
+        boolean deleted = service.delete(phone);
+        return deleted ? "Customer deleted" : "Customer not found";
     }
 
-    // ---------------- NEW endpoint for ViewCustomer ---------------- //
+    // ---------------- EXTRA: for ViewCustomer ---------------- //
 
     @GetMapping("/all-with-categories")
     public List<Map<String, String>> getAllCustomersWithCategories() {
         List<Map<String, String>> result = new ArrayList<>();
-        List<Customer> allCustomers = service.getAll();
 
+        List<Customer> allCustomers = service.getAll();
         for (Customer customer : allCustomers) {
             String phone = customer.getPhoneNumber();
 
-            // ✅ Use findByPhone() for each size category
-            if (trouserRepository.findByPhone(phone) != null) {
+            // ✅ Use new JPA relationships
+            if (trouserRepository.findByCustomer_PhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Trouser"));
-            }
-            if (shirtRepository.findByPhone(phone) != null) {
+
+            if (shirtRepository.findByCustomer_PhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Shirt"));
-            }
-            if (coatRepository.findByPhone(phone) != null) {
+
+            if (coatRepository.findByCustomer_PhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Coat"));
-            }
-            if (kurtaRepository.findByPhone(phone) != null) {
+
+            if (kurtaRepository.findByCustomer_PhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Kurta"));
-            }
-            if (sherwaniRepository.findByPhone(phone) != null) {
+
+            if (sherwaniRepository.findByCustomer_PhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Sherwani"));
-            }
-            if (waistcoatRepository.findByPhone(phone) != null) {
+
+            if (waistcoatRepository.findByCustomer_PhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Waistcoat"));
-            }
         }
 
         return result;

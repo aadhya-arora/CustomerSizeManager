@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class SizeService {
-    
-     @Autowired
+
+    @Autowired
     private TrouserRepository trouserRepo;
 
     @Autowired
@@ -26,64 +26,92 @@ public class SizeService {
     @Autowired
     private KurtaRepository kurtaRepo;
 
-    public int addOrUpdateTrouser(TrouserSize t) {
-        TrouserSize existing = trouserRepo.findByPhone(t.getPhoneNumber());
-        if (existing == null) return trouserRepo.save(t);
-        else return trouserRepo.update(t);
+    // ✅ Add or update (save handles both)
+    public TrouserSize saveTrouser(TrouserSize t) {
+        return trouserRepo.save(t);
     }
 
-    public TrouserSize getTrouser(String phone) {
-        return trouserRepo.findByPhone(phone);
+    public SherwaniSize saveSherwani(SherwaniSize s) {
+        return sherwaniRepo.save(s);
     }
 
-
-    public int addOrUpdateSherwani(SherwaniSize s) {
-        SherwaniSize existing = sherwaniRepo.findByPhone(s.getPhoneNumber());
-        if (existing == null) return sherwaniRepo.save(s);
-        else return sherwaniRepo.update(s);
+    public ShirtSize saveShirt(ShirtSize s) {
+        return shirtRepo.save(s);
     }
 
-    public SherwaniSize getSherwani(String phone) {
-        return sherwaniRepo.findByPhone(phone);
+    public CoatSize saveCoat(CoatSize s) {
+        return coatRepo.save(s);
     }
 
-    public int addOrUpdateShirt(ShirtSize s) {
-        ShirtSize existing = shirtRepo.findByPhone(s.getPhoneNumber());
-        if (existing == null) return shirtRepo.save(s);
-        else return shirtRepo.update(s);
+    public WaistcoatSize saveWaistcoat(WaistcoatSize s) {
+        return waistRepo.save(s);
     }
 
-    public ShirtSize getShirt(String phone) {
-        return shirtRepo.findByPhone(phone);
+    public KurtaSize saveKurta(KurtaSize s) {
+        return kurtaRepo.save(s);
     }
 
-    public int addOrUpdateCoat(CoatSize s) {
-        CoatSize existing = coatRepo.findByPhone(s.getPhoneNumber());
-        if (existing == null) return coatRepo.save(s);
-        else return coatRepo.update(s);
+    // ✅ Get size by Customer Phone Number
+    public TrouserSize getTrouserByPhone(String phone) {
+        return trouserRepo.findByCustomer_PhoneNumber(phone);
     }
 
-    public CoatSize getCoat(String phone) {
-        return coatRepo.findByPhone(phone);
+    public SherwaniSize getSherwaniByPhone(String phone) {
+        return sherwaniRepo.findByCustomer_PhoneNumber(phone);
     }
 
-    public int addOrUpdateWaistcoat(WaistcoatSize s) {
-        WaistcoatSize existing = waistRepo.findByPhone(s.getPhoneNumber());
-        if (existing == null) return waistRepo.save(s);
-        else return waistRepo.update(s);
+    public ShirtSize getShirtByPhone(String phone) {
+        return shirtRepo.findByCustomer_PhoneNumber(phone);
     }
 
-    public WaistcoatSize getWaistcoat(String phone) {
-        return waistRepo.findByPhone(phone);
+    public CoatSize getCoatByPhone(String phone) {
+        return coatRepo.findByCustomer_PhoneNumber(phone);
     }
 
-    public int addOrUpdateKurta(KurtaSize s) {
-        KurtaSize existing = kurtaRepo.findByPhone(s.getPhoneNumber());
-        if (existing == null) return kurtaRepo.save(s);
-        else return kurtaRepo.update(s);
+    public WaistcoatSize getWaistcoatByPhone(String phone) {
+        return waistRepo.findByCustomer_PhoneNumber(phone);
     }
 
-    public KurtaSize getKurta(String phone) {
-        return kurtaRepo.findByPhone(phone);
+    public KurtaSize getKurtaByPhone(String phone) {
+        return kurtaRepo.findByCustomer_PhoneNumber(phone);
     }
+
+    public void updateTrouser(TrouserSize t) {
+    TrouserSize existing = trouserRepo.findByCustomer_PhoneNumber(t.getCustomer().getPhoneNumber());
+    if (existing != null) {
+        t.setId(existing.getId());
+    }
+    trouserRepo.save(t);
+}
+
+public void updateSherwani(SherwaniSize s) {
+    SherwaniSize existing = sherwaniRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
+    if (existing != null) s.setId(existing.getId());
+    sherwaniRepo.save(s);
+}
+
+public void updateShirt(ShirtSize s) {
+    ShirtSize existing = shirtRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
+    if (existing != null) s.setId(existing.getId());
+    shirtRepo.save(s);
+}
+
+public void updateCoat(CoatSize s) {
+    CoatSize existing = coatRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
+    if (existing != null) s.setId(existing.getId());
+    coatRepo.save(s);
+}
+
+public void updateWaistcoat(WaistcoatSize s) {
+    WaistcoatSize existing = waistRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
+    if (existing != null) s.setId(existing.getId());
+    waistRepo.save(s);
+}
+
+public void updateKurta(KurtaSize s) {
+    KurtaSize existing = kurtaRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
+    if (existing != null) s.setId(existing.getId());
+    kurtaRepo.save(s);
+}
+
 }

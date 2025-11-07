@@ -1,130 +1,118 @@
 package com.raanjhana.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "trouser_size")
 public class TrouserSize {
-    
-    private String phoneNumber;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
+
     private String pleats;
-    private Double length;
-    private Double waist;
-    private Double il;
-    private Double hips;
-    private Double thigh;
-    private Double r;
-    private Double knee;
-    private Double calf;
-    private Double bottom;
+    private double length;
+    private double waist;
+    private double il;
+    private double hips;
+    private double thigh;
+    private double r;
+    private double knee;
+    private double calf;
+    private double bottom;
 
-    
-    public TrouserSize() {
-    }
+    public TrouserSize() {}
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    // Getters and setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
 
     public String getPleats() {
         return pleats;
     }
 
-
     public void setPleats(String pleats) {
         this.pleats = pleats;
     }
 
-
-    public Double getLength() {
+    public double getLength() {
         return length;
     }
 
-
-    public void setLength(Double length) {
+    public void setLength(double length) {
         this.length = length;
     }
 
-
-    public Double getWaist() {
+    public double getWaist() {
         return waist;
     }
 
-
-    public void setWaist(Double waist) {
+    public void setWaist(double waist) {
         this.waist = waist;
     }
 
-
-    public Double getIl() {
+    public double getIl() {
         return il;
     }
 
-
-    public void setIl(Double il) {
+    public void setIl(double il) {
         this.il = il;
     }
 
-
-    public Double getHips() {
+    public double getHips() {
         return hips;
     }
 
-
-    public void setHips(Double hips) {
+    public void setHips(double hips) {
         this.hips = hips;
     }
 
-
-    public Double getThigh() {
+    public double getThigh() {
         return thigh;
     }
 
-
-    public void setThigh(Double thigh) {
+    public void setThigh(double thigh) {
         this.thigh = thigh;
     }
 
-
-    public Double getR() {
+    public double getR() {
         return r;
     }
 
-
-    public void setR(Double r) {
+    public void setR(double r) {
         this.r = r;
     }
 
-
-    public Double getKnee() {
+    public double getKnee() {
         return knee;
     }
 
-
-    public void setKnee(Double knee) {
+    public void setKnee(double knee) {
         this.knee = knee;
     }
 
-
-    public Double getCalf() {
+    public double getCalf() {
         return calf;
     }
 
-
-    public void setCalf(Double calf) {
+    public void setCalf(double calf) {
         this.calf = calf;
     }
 
-
-    public Double getBottom() {
+    public double getBottom() {
         return bottom;
     }
 
-
-    public void setBottom(Double bottom) {
+    public void setBottom(double bottom) {
         this.bottom = bottom;
     }
 
+    // Other fields same pattern
 }

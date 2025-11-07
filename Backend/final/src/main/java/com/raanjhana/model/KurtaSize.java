@@ -1,116 +1,75 @@
 package com.raanjhana.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "kurta_size")
 public class KurtaSize {
-    
-    private String phoneNumber;
-    private Double length, chest, gap, waist, hips, shoulder, sleeve, bicep, elbow, cuff, cb, neck;
 
-    public KurtaSize() {
-    }
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
+    @ManyToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    private Customer customer;
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
+    private double length;
+    private double chest;
+    private double gap;
+    private double waist;
+    private double hips;
+    private double shoulder;
+    private double sleeve;
+    private double bicep;
+    private double elbow;
+    private double cuff;
+    private double cb;
+    private double neck;
 
-    public Double getLength() {
-        return length;
-    }
+    public KurtaSize() {}
 
-    public void setLength(Double length) {
-        this.length = length;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Double getChest() {
-        return chest;
-    }
+    public Customer getCustomer() { return customer; }
+    public void setCustomer(Customer customer) { this.customer = customer; }
 
-    public void setChest(Double chest) {
-        this.chest = chest;
-    }
+    // Getters and setters for all fields below
 
-    public Double getGap() {
-        return gap;
-    }
+    public double getLength() { return length; }
+    public void setLength(double length) { this.length = length; }
 
-    public void setGap(Double gap) {
-        this.gap = gap;
-    }
+    public double getChest() { return chest; }
+    public void setChest(double chest) { this.chest = chest; }
 
-    public Double getWaist() {
-        return waist;
-    }
+    public double getGap() { return gap; }
+    public void setGap(double gap) { this.gap = gap; }
 
-    public void setWaist(Double waist) {
-        this.waist = waist;
-    }
+    public double getWaist() { return waist; }
+    public void setWaist(double waist) { this.waist = waist; }
 
-    public Double getHips() {
-        return hips;
-    }
+    public double getHips() { return hips; }
+    public void setHips(double hips) { this.hips = hips; }
 
-    public void setHips(Double hips) {
-        this.hips = hips;
-    }
+    public double getShoulder() { return shoulder; }
+    public void setShoulder(double shoulder) { this.shoulder = shoulder; }
 
-    public Double getShoulder() {
-        return shoulder;
-    }
+    public double getSleeve() { return sleeve; }
+    public void setSleeve(double sleeve) { this.sleeve = sleeve; }
 
-    public void setShoulder(Double shoulder) {
-        this.shoulder = shoulder;
-    }
+    public double getBicep() { return bicep; }
+    public void setBicep(double bicep) { this.bicep = bicep; }
 
-    public Double getSleeve() {
-        return sleeve;
-    }
+    public double getElbow() { return elbow; }
+    public void setElbow(double elbow) { this.elbow = elbow; }
 
-    public void setSleeve(Double sleeve) {
-        this.sleeve = sleeve;
-    }
+    public double getCuff() { return cuff; }
+    public void setCuff(double cuff) { this.cuff = cuff; }
 
-    public Double getBicep() {
-        return bicep;
-    }
+    public double getCb() { return cb; }
+    public void setCb(double cb) { this.cb = cb; }
 
-    public void setBicep(Double bicep) {
-        this.bicep = bicep;
-    }
-
-    public Double getElbow() {
-        return elbow;
-    }
-
-    public void setElbow(Double elbow) {
-        this.elbow = elbow;
-    }
-
-    public Double getCuff() {
-        return cuff;
-    }
-
-    public void setCuff(Double cuff) {
-        this.cuff = cuff;
-    }
-
-    public Double getCb() {
-        return cb;
-    }
-
-    public void setCb(Double cb) {
-        this.cb = cb;
-    }
-
-    public Double getNeck() {
-        return neck;
-    }
-
-    public void setNeck(Double neck) {
-        this.neck = neck;
-    }
-    
-
+    public double getNeck() { return neck; }
+    public void setNeck(double neck) { this.neck = neck; }
 }

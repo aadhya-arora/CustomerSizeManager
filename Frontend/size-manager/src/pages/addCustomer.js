@@ -71,8 +71,10 @@ const AddCustomerSize = () => {
     }
 
     const payload = {
-      phoneNumber,
-      category,
+      customer: {
+        phoneNumber,
+        name: customerName || "Unknown",
+      },
       ...(category === "trouser"
         ? trouserData
         : category === "waistcoat"
@@ -83,22 +85,22 @@ const AddCustomerSize = () => {
     let endpoint = "";
     switch (category) {
       case "trouser":
-        endpoint = "http://localhost:8080/api/trouser/add";
+        endpoint = "http://localhost:8080/api/sizes/trouser/add";
         break;
       case "kurta":
-        endpoint = "http://localhost:8080/api/kurta/add";
+        endpoint = "http://localhost:8080/api/sizes/kurta/add";
         break;
       case "shirt":
-        endpoint = "http://localhost:8080/api/shirt/add";
+        endpoint = "http://localhost:8080/api/sizes/shirt/add";
         break;
       case "coat":
-        endpoint = "http://localhost:8080/api/coat/add";
+        endpoint = "http://localhost:8080/api/sizes/coat/add";
         break;
       case "sherwani":
-        endpoint = "http://localhost:8080/api/sherwani/add";
+        endpoint = "http://localhost:8080/api/sizes/sherwani/add";
         break;
       case "waistcoat":
-        endpoint = "http://localhost:8080/api/waistcoat/add";
+        endpoint = "http://localhost:8080/api/sizes/waistcoat/add";
         break;
       default:
         alert("Please select a valid category!");
