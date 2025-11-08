@@ -72,23 +72,29 @@ const HomePage = () => {
       </section>
 
       <section className="features">
+        <Link to="/add-size" className="feature-card" style={{ textDecoration: "none" }}>
         <div className="feature-card">
           <FaTshirt className="icon" />
           <h3>Save Sizes</h3>
           <p>Record shirt, pant, and shoe sizes easily.</p>
         </div>
+        </Link>
 
+         <Link to="/view-customer" className="feature-card" style={{ textDecoration: "none" }}>
         <div className="feature-card">
           <FaSearch className="icon" />
           <h3>Quick Search</h3>
           <p>Find customers by phone instantly.</p>
         </div>
+        </Link>
 
+        <Link to="/update-customer" className="feature-card" style={{ textDecoration: "none" }}>
         <div className="feature-card">
           <FaCloud className="icon" />
           <h3>Update Sizes</h3>
           <p>Update the size of an existing customer.</p>
         </div>
+        </Link>
       </section>
 
       <footer className="footer">
