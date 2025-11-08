@@ -136,4 +136,9 @@
   .trouser-grid {
     grid-template-columns: 1fr;
   }
+
+  .fields-grid{
+    display: flex;
+    flex-direction: column;
+  }
 }
