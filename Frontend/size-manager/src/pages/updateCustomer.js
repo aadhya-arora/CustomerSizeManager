@@ -22,7 +22,6 @@ const UpdateCustomer = () => {
       return;
     }
 
-    // ✅ Build payload to match backend
     const payload = {
       ...formData,
       customer: { phoneNumber: phone },
@@ -84,7 +83,6 @@ const UpdateCustomer = () => {
 
   return (
     <div>
-      {/* Navbar */}
       <nav className="navbar">
         <div className="logo-section">
           <img src={logo} alt="Raanjhana Logo" className="logo" />
@@ -115,7 +113,6 @@ const UpdateCustomer = () => {
         </ul>
       </nav>
 
-      {/* Form Section */}
       <div className="add-size-container">
         <h2>Update Customer Size</h2>
 
@@ -145,7 +142,6 @@ const UpdateCustomer = () => {
             <option value="Waistcoat">Waist Coat</option>
           </select>
 
-          {/* Trouser Section */}
           {category === "Trouser" && (
             <div className="category-section">
               <h3>Trouser Details</h3>
