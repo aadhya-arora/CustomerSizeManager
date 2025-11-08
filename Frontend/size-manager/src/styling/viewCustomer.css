@@ -1,7 +1,7 @@
 .page-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Full viewport height */
+  min-height: 100vh;
 }
 
 .all-customers {
@@ -192,5 +192,55 @@
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 915px) {
+
+  .all-customers {
+    width: 95%;
+    overflow-x: auto;
+  }
+
+  .customer-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-radius: 8px;
+  }
+
+  .customer-table th,
+  .customer-table td {
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+
+  .table-title {
+    font-size: 1.4rem;
+  }
+
+  .all-customers::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .all-customers::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+  }
+
+  .all-customers::-webkit-scrollbar-track {
+    background: #222;
+  }
+
+  .search-section{
+    justify-content: center;
+    text-align: center;
+  }
+  .category-filter{
+    margin-top: 20px;
+  }
+  .search-bar{
+    width: 80%;
   }
 }

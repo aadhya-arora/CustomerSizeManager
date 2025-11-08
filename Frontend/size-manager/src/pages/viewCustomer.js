@@ -21,7 +21,6 @@ const ViewCustomer = () => {
   const [sizeDetails, setSizeDetails] = useState(null);
   const [sizeLoading, setSizeLoading] = useState(false); // ✅ separate popup loading
 
-  // ✅ Fetch all customers
   useEffect(() => {
     setLoading(true);
     fetch("http://localhost:8080/api/customers/all-with-categories")
@@ -36,7 +35,7 @@ const ViewCustomer = () => {
       });
   }, []);
 
-  // ✅ Filtered data
+
   const filteredCustomers = Array.isArray(customers)
     ? customers.filter((cust) => {
         const matchesSearch = cust.phoneNumber
@@ -49,7 +48,7 @@ const ViewCustomer = () => {
       })
     : [];
 
-  // ✅ Handle row click
+
   const handleRowClick = (cust) => {
     setSelectedCustomer(cust);
     setShowPopup(true);
@@ -83,7 +82,7 @@ const ViewCustomer = () => {
 
   return (
     <div className="page-container">
-      {/* Navbar */}
+     
       <nav className="navbar">
         <div className="logo-section">
           <img src={logo} alt="Raanjhanaa Logo" className="logo" />
@@ -113,7 +112,6 @@ const ViewCustomer = () => {
         </ul>
       </nav>
 
-      {/* Search Section */}
       <div className="search-section">
         <div className="search-bar">
           <FaSearch className="search-icon" />
@@ -140,8 +138,6 @@ const ViewCustomer = () => {
           <option value="Waistcoat">Waist Coat</option>
         </select>
       </div>
-
-      {/* Customer Table */}
       <div className="all-customers">
         <h2 className="table-title">Customer Size Details</h2>
 
