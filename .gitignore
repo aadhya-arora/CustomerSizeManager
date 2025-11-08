@@ -45,3 +45,16 @@ desktop.ini
 *.bak
 *.tmp
 *.log
+
+# Ignore target folder
+/target/
+
+# Ignore IDE settings
+/.idea/
+/.vscode/
+
+# Ignore system files
+.DS_Store
+
+# DO NOT ignore static build
+# src/main/resources/static/
