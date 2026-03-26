@@ -1,10 +1,10 @@
 package com.raanjhana.repository;
 
 import com.raanjhana.model.WaistcoatSize;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface WaistcoatRepository extends JpaRepository<WaistcoatSize, Long> {
-   WaistcoatSize findByCustomer_PhoneNumber(String phoneNumber);
+public interface WaistcoatRepository extends MongoRepository<WaistcoatSize, String> {
+   WaistcoatSize findByCustomerPhoneNumber(String phoneNumber);
 }

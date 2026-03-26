@@ -1,10 +1,10 @@
 package com.raanjhana.repository;
 
 import com.raanjhana.model.CoatSize;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 @Repository
-public interface CoatRepository extends JpaRepository<CoatSize, Long> {
-    CoatSize findByCustomer_PhoneNumber(String phoneNumber);
+public interface CoatRepository extends MongoRepository<CoatSize, String> {
+    CoatSize findByCustomerPhoneNumber(String phoneNumber);
 }

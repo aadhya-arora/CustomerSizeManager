@@ -72,25 +72,25 @@ public class CustomerController {
 
         List<Customer> allCustomers = service.getAll();
         for (Customer customer : allCustomers) {
-            String phone = customer.getPhoneNumber();
+            String phone = customer.getCustomerPhoneNumber();
 
             // ✅ Use new JPA relationships
-            if (trouserRepository.findByCustomer_PhoneNumber(phone) != null)
+            if (trouserRepository.findByCustomerPhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Trouser"));
 
-            if (shirtRepository.findByCustomer_PhoneNumber(phone) != null)
+            if (shirtRepository.findByCustomerPhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Shirt"));
 
-            if (coatRepository.findByCustomer_PhoneNumber(phone) != null)
+            if (coatRepository.findByCustomerPhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Coat"));
 
-            if (kurtaRepository.findByCustomer_PhoneNumber(phone) != null)
+            if (kurtaRepository.findByCustomerPhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Kurta"));
 
-            if (sherwaniRepository.findByCustomer_PhoneNumber(phone) != null)
+            if (sherwaniRepository.findByCustomerPhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Sherwani"));
 
-            if (waistcoatRepository.findByCustomer_PhoneNumber(phone) != null)
+            if (waistcoatRepository.findByCustomerPhoneNumber(phone) != null)
                 result.add(Map.of("phoneNumber", phone, "category", "Waistcoat"));
         }
 

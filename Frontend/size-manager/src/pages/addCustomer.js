@@ -233,7 +233,6 @@ const AddCustomerSize = () => {
               View Customers
             </Link>
           </li>
-          <li>Search</li>
         </ul>
       </nav>
 

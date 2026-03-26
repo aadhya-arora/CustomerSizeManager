@@ -1,18 +1,18 @@
 package com.raanjhana.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "kurta_size")
+@Document(collection="kurta_size")
 public class KurtaSize {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Customer customer;
+    @Field("CustomerphoneNumber")
+    private String customerPhoneNumber;
+
 
     private double length;
     private double chest;
@@ -29,13 +29,12 @@ public class KurtaSize {
 
     public KurtaSize() {}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
-    public Customer getCustomer() { return customer; }
-    public void setCustomer(Customer customer) { this.customer = customer; }
+    public String getCustomerPhoneNumber() { return customerPhoneNumber; }
+    public void setCustomerPhoneNumber(String customerPhoneNumber) { this.customerPhoneNumber = customerPhoneNumber; }
 
-    // Getters and setters for all fields below
 
     public double getLength() { return length; }
     public void setLength(double length) { this.length = length; }

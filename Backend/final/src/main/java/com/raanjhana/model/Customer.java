@@ -1,16 +1,13 @@
 package com.raanjhana.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "customers")
+
+@Document(collection="customers")
 public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true, nullable = false)
     private String phoneNumber;
 
     private String name;
@@ -22,11 +19,9 @@ public class Customer {
         this.name = name;
     }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
 
-    public String getPhoneNumber() { return phoneNumber; }
-    public void setPhoneNumber(String phoneNumber) { this.phoneNumber = phoneNumber; }
+    public String getCustomerPhoneNumber() { return phoneNumber; }
+    public void setCustomerPhoneNumber(String customerPhoneNumber) { this.phoneNumber = customerPhoneNumber; }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }

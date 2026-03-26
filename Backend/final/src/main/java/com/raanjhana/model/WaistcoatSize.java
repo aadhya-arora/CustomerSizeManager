@@ -1,18 +1,18 @@
 package com.raanjhana.model;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-@Entity
-@Table(name = "waistcoat_size")
+@Document(collection="waistcoat_size")
 public class WaistcoatSize {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    private Customer customer;
+    @Field("CustomerphoneNumber")
+    private String CustomerPhoneNumber;
+
 
     private double length;
     private double chest;
@@ -24,21 +24,16 @@ public class WaistcoatSize {
 
     public WaistcoatSize() {}
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+    public String getCustomerPhoneNumber() { return CustomerPhoneNumber; }
+    public void setCustomerPhoneNumber(String customerPhoneNumber) { this.CustomerPhoneNumber = customerPhoneNumber; }
 
     public double getLength() {
         return length;

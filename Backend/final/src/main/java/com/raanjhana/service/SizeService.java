@@ -26,7 +26,7 @@ public class SizeService {
     @Autowired
     private KurtaRepository kurtaRepo;
 
-    // ✅ Add or update (save handles both)
+    // ✅ Save methods (Works for both Insert and Update in MongoDB)
     public TrouserSize saveTrouser(TrouserSize t) {
         return trouserRepo.save(t);
     }
@@ -51,67 +51,67 @@ public class SizeService {
         return kurtaRepo.save(s);
     }
 
-    // ✅ Get size by Customer Phone Number
+    // ✅ Get methods - Updated to match the new field name 'customerPhoneNumber'
     public TrouserSize getTrouserByPhone(String phone) {
-        return trouserRepo.findByCustomer_PhoneNumber(phone);
+        return trouserRepo.findByCustomerPhoneNumber(phone);
     }
 
     public SherwaniSize getSherwaniByPhone(String phone) {
-        return sherwaniRepo.findByCustomer_PhoneNumber(phone);
+        return sherwaniRepo.findByCustomerPhoneNumber(phone);
     }
 
     public ShirtSize getShirtByPhone(String phone) {
-        return shirtRepo.findByCustomer_PhoneNumber(phone);
+        return shirtRepo.findByCustomerPhoneNumber(phone);
     }
 
     public CoatSize getCoatByPhone(String phone) {
-        return coatRepo.findByCustomer_PhoneNumber(phone);
+        return coatRepo.findByCustomerPhoneNumber(phone);
     }
 
     public WaistcoatSize getWaistcoatByPhone(String phone) {
-        return waistRepo.findByCustomer_PhoneNumber(phone);
+        return waistRepo.findByCustomerPhoneNumber(phone);
     }
 
     public KurtaSize getKurtaByPhone(String phone) {
-        return kurtaRepo.findByCustomer_PhoneNumber(phone);
+        return kurtaRepo.findByCustomerPhoneNumber(phone);
     }
 
+    // ✅ Update logic - Uses String IDs and matches MongoDB field naming
     public void updateTrouser(TrouserSize t) {
-    TrouserSize existing = trouserRepo.findByCustomer_PhoneNumber(t.getCustomer().getPhoneNumber());
-    if (existing != null) {
-        t.setId(existing.getId());
+        TrouserSize existing = trouserRepo.findByCustomerPhoneNumber(t.getCustomerPhoneNumber());
+        if (existing != null) {
+            t.setId(existing.getId()); // existing.getId() is now a String
+        }
+        trouserRepo.save(t);
     }
-    trouserRepo.save(t);
-}
 
-public void updateSherwani(SherwaniSize s) {
-    SherwaniSize existing = sherwaniRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
-    if (existing != null) s.setId(existing.getId());
-    sherwaniRepo.save(s);
-}
+    public void updateSherwani(SherwaniSize s) {
+        SherwaniSize existing = sherwaniRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
+        if (existing != null) s.setId(existing.getId());
+        sherwaniRepo.save(s);
+    }
 
-public void updateShirt(ShirtSize s) {
-    ShirtSize existing = shirtRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
-    if (existing != null) s.setId(existing.getId());
-    shirtRepo.save(s);
-}
+    public void updateShirt(ShirtSize s) {
+        ShirtSize existing = shirtRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
+        if (existing != null) s.setId(existing.getId());
+        shirtRepo.save(s);
+    }
 
-public void updateCoat(CoatSize s) {
-    CoatSize existing = coatRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
-    if (existing != null) s.setId(existing.getId());
-    coatRepo.save(s);
-}
+    public void updateCoat(CoatSize s) {
+        CoatSize existing = coatRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
+        if (existing != null) s.setId(existing.getId());
+        coatRepo.save(s);
+    }
 
-public void updateWaistcoat(WaistcoatSize s) {
-    WaistcoatSize existing = waistRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
-    if (existing != null) s.setId(existing.getId());
-    waistRepo.save(s);
-}
+    public void updateWaistcoat(WaistcoatSize s) {
+        WaistcoatSize existing = waistRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
+        if (existing != null) s.setId(existing.getId());
+        waistRepo.save(s);
+    }
 
-public void updateKurta(KurtaSize s) {
-    KurtaSize existing = kurtaRepo.findByCustomer_PhoneNumber(s.getCustomer().getPhoneNumber());
-    if (existing != null) s.setId(existing.getId());
-    kurtaRepo.save(s);
-}
-
+    public void updateKurta(KurtaSize s) {
+        KurtaSize existing = kurtaRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
+        if (existing != null) s.setId(existing.getId());
+        kurtaRepo.save(s);
+    }
 }
