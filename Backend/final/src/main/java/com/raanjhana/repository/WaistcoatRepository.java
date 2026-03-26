@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WaistcoatRepository extends MongoRepository<WaistcoatSize, String> {
-   WaistcoatSize findByCustomerPhoneNumber(String phoneNumber);
+   WaistcoatSize findByCustomerPhoneNumber(String customerPhoneNumber);
 }

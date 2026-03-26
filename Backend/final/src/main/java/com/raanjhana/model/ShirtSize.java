@@ -10,7 +10,7 @@ public class ShirtSize {
     @Id
     private String id;
 
-    @Field("CustomerphoneNumber")
+    @Field("customerPhoneNumber")
     private String customerPhoneNumber;
 
     private double length;
@@ -25,6 +25,16 @@ public class ShirtSize {
     private double cuff;
     private double cb;
     private double neck;
+
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public ShirtSize() {}
 

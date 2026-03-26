@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface KurtaRepository extends MongoRepository<KurtaSize, String> {
-   KurtaSize findByCustomerPhoneNumber(String phoneNumber);
+   KurtaSize findByCustomerPhoneNumber(String customerPhoneNumber);
 }

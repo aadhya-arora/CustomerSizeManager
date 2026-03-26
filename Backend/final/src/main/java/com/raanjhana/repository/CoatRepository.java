@@ -6,5 +6,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 @Repository
 public interface CoatRepository extends MongoRepository<CoatSize, String> {
-    CoatSize findByCustomerPhoneNumber(String phoneNumber);
+    CoatSize findByCustomerPhoneNumber(String customerPhoneNumber);
 }

@@ -10,7 +10,7 @@ public class TrouserSize {
     @Id
     private String id;
 
-    @Field("CustomerphoneNumber")
+    @Field("customerPhoneNumber")
     private String customerPhoneNumber;
 
 
@@ -24,6 +24,15 @@ public class TrouserSize {
     private double knee;
     private double calf;
     private double bottom;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public TrouserSize() {}
 

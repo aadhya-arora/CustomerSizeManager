@@ -168,12 +168,12 @@
 .size-key {
   font-weight: bold;
   text-transform: capitalize;
-  color: black;
+  color: white;
 }
 
 .size-value {
   text-align: right;
-  color: black;
+  color: white;
 }
 .loading-container {
   display: flex;

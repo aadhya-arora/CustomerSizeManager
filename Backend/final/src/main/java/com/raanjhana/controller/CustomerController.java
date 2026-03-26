@@ -5,6 +5,12 @@ import com.raanjhana.repository.*;
 import com.raanjhana.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.raanjhana.repository.TrouserRepository;
+import com.raanjhana.repository.ShirtRepository;
+import com.raanjhana.repository.CoatRepository;
+import com.raanjhana.repository.KurtaRepository;
+import com.raanjhana.repository.SherwaniRepository;
+import com.raanjhana.repository.WaistcoatRepository;
 
 import java.util.*;
 
@@ -76,22 +82,46 @@ public class CustomerController {
 
             // ✅ Use new JPA relationships
             if (trouserRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of("phoneNumber", phone, "category", "Trouser"));
+                result.add(Map.of(
+                        "phoneNumber", phone,
+                        "name", customer.getName(),
+                        "category", "Trouser"
+                ));
 
             if (shirtRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of("phoneNumber", phone, "category", "Shirt"));
+                result.add(Map.of(
+                        "phoneNumber", phone,
+                        "name", customer.getName(),
+                        "category", "Shirt"
+                ));
 
             if (coatRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of("phoneNumber", phone, "category", "Coat"));
+                result.add(Map.of(
+                        "phoneNumber", phone,
+                        "name", customer.getName(),
+                        "category", "Coat"
+                ));
 
             if (kurtaRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of("phoneNumber", phone, "category", "Kurta"));
+                result.add(Map.of(
+                        "phoneNumber", phone,
+                        "name", customer.getName(),
+                        "category", "Kurta"
+                ));
 
             if (sherwaniRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of("phoneNumber", phone, "category", "Sherwani"));
+                result.add(Map.of(
+                        "phoneNumber", phone,
+                        "name", customer.getName(),
+                        "category", "Sherwani"
+                ));
 
             if (waistcoatRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of("phoneNumber", phone, "category", "Waistcoat"));
+                result.add(Map.of(
+                        "phoneNumber", phone,
+                        "name", customer.getName(),
+                        "category", "Waistcoat"
+                ));
         }
 
         return result;

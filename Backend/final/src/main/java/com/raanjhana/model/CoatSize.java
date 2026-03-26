@@ -10,10 +10,10 @@ public class CoatSize {
     @Id
     private String id;
 
-    @Field("CustomerphoneNumber")
+    @Field("customerPhoneNumber")
     private String customerPhoneNumber;
 
-
+    private String name;
     private double length;
     private double chest;
     private double gap;
@@ -141,5 +141,12 @@ public class CoatSize {
         this.neck = neck;
     }
 
-    // Standard getters & setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+// Standard getters & setters
 }

@@ -10,8 +10,8 @@ public class WaistcoatSize {
     @Id
     private String id;
 
-    @Field("CustomerphoneNumber")
-    private String CustomerPhoneNumber;
+    @Field("customerPhoneNumber")
+    private String customerPhoneNumber;
 
 
     private double length;
@@ -21,6 +21,15 @@ public class WaistcoatSize {
     private double hips;
     private double shoulder;
     private double neck;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public WaistcoatSize() {}
 
@@ -32,8 +41,8 @@ public class WaistcoatSize {
         this.id = id;
     }
 
-    public String getCustomerPhoneNumber() { return CustomerPhoneNumber; }
-    public void setCustomerPhoneNumber(String customerPhoneNumber) { this.CustomerPhoneNumber = customerPhoneNumber; }
+    public String getCustomerPhoneNumber() { return customerPhoneNumber; }
+    public void setCustomerPhoneNumber(String customerPhoneNumber) { this.customerPhoneNumber = customerPhoneNumber; }
 
     public double getLength() {
         return length;

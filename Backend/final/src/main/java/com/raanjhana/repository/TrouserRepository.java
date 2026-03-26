@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TrouserRepository extends MongoRepository<TrouserSize, String> {
-    TrouserSize findByCustomerPhoneNumber(String phoneNumber);
+    TrouserSize findByCustomerPhoneNumber(String customerPhoneNumber);
 }

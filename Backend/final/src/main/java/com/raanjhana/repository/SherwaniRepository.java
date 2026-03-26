@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SherwaniRepository extends MongoRepository<SherwaniSize, String> {
-   SherwaniSize findByCustomerPhoneNumber(String phoneNumber);
+   SherwaniSize findByCustomerPhoneNumber(String customerPhoneNumber);
 }

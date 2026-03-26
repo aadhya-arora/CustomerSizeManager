@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ShirtRepository extends MongoRepository<ShirtSize, String> {
-   ShirtSize findByCustomerPhoneNumber(String phoneNumber);
+   ShirtSize findByCustomerPhoneNumber(String customerPhoneNumber);
 }

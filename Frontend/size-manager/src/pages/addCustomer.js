@@ -71,16 +71,14 @@ const AddCustomerSize = () => {
     }
 
     const payload = {
-      customer: {
-        phoneNumber,
-        name: customerName || "Unknown",
-      },
-      ...(category === "trouser"
-        ? trouserData
-        : category === "waistcoat"
-        ? waistCoatData
-        : upperWearData),
-    };
+    customerPhoneNumber: phoneNumber, 
+    name: customerName,
+    ...(category === "trouser"
+      ? trouserData
+      : category === "waistcoat"
+      ? waistCoatData
+      : upperWearData),
+  };
 
     let endpoint = "";
     switch (category) {
