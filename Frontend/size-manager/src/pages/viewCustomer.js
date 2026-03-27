@@ -157,7 +157,7 @@ const ViewCustomer = () => {
                     {/* ✅ EXPANDED ROW */}
                     {expandedRows[key] && sizeCache[key] && (
                       <tr>
-                        <td colSpan="2">
+                        <td colSpan="3">
                           <table className="size-table">
                             <tbody>
                               {Object.entries(sizeCache[key]).map(([k, v]) => (
