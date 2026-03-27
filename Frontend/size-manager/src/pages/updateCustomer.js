@@ -14,40 +14,6 @@ const UpdateCustomer = () => {
 const [expanded, setExpanded] = useState({});
 const [sizeData, setSizeData] = useState({});
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-  e.preventDefault();
-
-  if (!phone || !category) {
-    alert("Please fill out all required fields!");
-    return;
-  }
-
-  // ✅ remove empty fields
-  const cleanData = (obj) => {
-    const newObj = {};
-    Object.keys(obj).forEach((key) => {
-      if (obj[key] !== "") {
-        newObj[key] = obj[key];
-      }
-    });
-    return newObj;
-  };
-
-  let payload = {
-    customerPhoneNumber: phone,
-    name: name,
-    ...cleanData(formData),
-  };
-
-  if (category.toLowerCase() === "trouser" && trouserType !== "") {
-    payload.pleats = trouserType;
-  }
-
-  const BASE_URL = "https://raanjhana-backend.onrender.com";
 
   useEffect(() => {
   if (!phone) {
@@ -89,6 +55,42 @@ const handleExpand = (cat) => {
       .catch(err => console.error(err));
   }
 };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+  e.preventDefault();
+
+  if (!phone || !category) {
+    alert("Please fill out all required fields!");
+    return;
+  }
+
+  // ✅ remove empty fields
+  const cleanData = (obj) => {
+    const newObj = {};
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== "") {
+        newObj[key] = obj[key];
+      }
+    });
+    return newObj;
+  };
+
+  let payload = {
+    customerPhoneNumber: phone,
+    name: name,
+    ...cleanData(formData),
+  };
+
+  if (category.toLowerCase() === "trouser" && trouserType !== "") {
+    payload.pleats = trouserType;
+  }
+
+  const BASE_URL = "https://raanjhana-backend.onrender.com";
+
 
   let endpoint = "";
   switch (category.toLowerCase()) {
