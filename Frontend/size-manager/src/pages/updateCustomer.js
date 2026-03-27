@@ -31,25 +31,27 @@ const UpdateCustomer = () => {
       payload.pleats = trouserType;
     }
 
+    const BASE_URL = process.env.REACT_APP_API_URL;
+
     let endpoint = "";
     switch (category.toLowerCase()) {
       case "trouser":
-        endpoint = "http://localhost:8080/api/sizes/trouser/update";
+        endpoint = `${BASE_URL}/api/sizes/trouser/update`;
         break;
       case "kurta":
-        endpoint = "http://localhost:8080/api/sizes/kurta/update";
+        endpoint = `${BASE_URL}/api/sizes/kurta/update`;
         break;
       case "shirt":
-        endpoint = "http://localhost:8080/api/sizes/shirt/update";
+        endpoint = `${BASE_URL}/api/sizes/shirt/update`;
         break;
       case "coat":
-        endpoint = "http://localhost:8080/api/sizes/coat/update";
+        endpoint = `${BASE_URL}/api/sizes/coat/update`;
         break;
       case "sherwani":
-        endpoint = "http://localhost:8080/api/sizes/sherwani/update";
+        endpoint = `${BASE_URL}/api/sizes/sherwani/update`;
         break;
       case "waistcoat":
-        endpoint = "http://localhost:8080/api/sizes/waistcoat/update";
+        endpoint = `${BASE_URL}/api/sizes/waistcoat/update`;
         break;
       default:
         alert("Please select a valid category!");

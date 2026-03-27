@@ -17,10 +17,12 @@ const ViewCustomer = () => {
   const [loading, setLoading] = useState(true);
   const [expandedRows, setExpandedRows] = useState({});
   const [sizeCache, setSizeCache] = useState({});
+  const BASE_URL = process.env.REACT_APP_API_URL;
+
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:8080/api/customers/all-with-categories")
+    fetch(`${BASE_URL}/api/customers/all-with-categories`)
       .then((res) => res.json())
       .then((data) => {
         setCustomers(Array.isArray(data) ? data : []);
@@ -63,8 +65,7 @@ const ViewCustomer = () => {
     setExpandedRows((prev) => ({ ...prev, [key]: true }));
 
     if (!sizeCache[key]) {
-      const endpoint = `http://localhost:8080/api/sizes/${cust.category.toLowerCase()}/${cust.phoneNumber}`;
-
+      const endpoint = `${BASE_URL}/api/sizes/${cust.category.toLowerCase()}/${cust.phoneNumber}`;
       fetch(endpoint)
         .then((res) => res.json())
         .then((data) => {

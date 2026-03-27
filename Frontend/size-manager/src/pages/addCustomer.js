@@ -80,30 +80,28 @@ const AddCustomerSize = () => {
       : upperWearData),
   };
 
+    const BASE_URL = process.env.REACT_APP_API_URL;
     let endpoint = "";
-    switch (category) {
-      case "trouser":
-        endpoint = "http://localhost:8080/api/sizes/trouser/add";
-        break;
-      case "kurta":
-        endpoint = "http://localhost:8080/api/sizes/kurta/add";
-        break;
-      case "shirt":
-        endpoint = "http://localhost:8080/api/sizes/shirt/add";
-        break;
-      case "coat":
-        endpoint = "http://localhost:8080/api/sizes/coat/add";
-        break;
-      case "sherwani":
-        endpoint = "http://localhost:8080/api/sizes/sherwani/add";
-        break;
-      case "waistcoat":
-        endpoint = "http://localhost:8080/api/sizes/waistcoat/add";
-        break;
-      default:
-        alert("Please select a valid category!");
-        return;
-    }
+switch (category) {
+  case "trouser":
+    endpoint = `${BASE_URL}/api/sizes/trouser/add`;
+    break;
+  case "kurta":
+    endpoint = `${BASE_URL}/api/sizes/kurta/add`;
+    break;
+  case "shirt":
+    endpoint = `${BASE_URL}/api/sizes/shirt/add`;
+    break;
+  case "coat":
+    endpoint = `${BASE_URL}/api/sizes/coat/add`;
+    break;
+  case "sherwani":
+    endpoint = `${BASE_URL}/api/sizes/sherwani/add`;
+    break;
+  case "waistcoat":
+    endpoint = `${BASE_URL}/api/sizes/waistcoat/add`;
+    break;
+}
 
     fetch(endpoint, {
       method: "POST",
