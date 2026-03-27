@@ -6,19 +6,18 @@ import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
 
 const UpdateCustomer = () => {
   const [phone, setPhone] = useState("");
-  const [name, setName] = useState(""); // ✅ NEW
+  const [name, setName] = useState("");
   const [category, setCategory] = useState("");
   const [trouserType, setTrouserType] = useState("");
   const [formData, setFormData] = useState({});
 
-  // ✅ NEW STATES
   const [availableCategories, setAvailableCategories] = useState([]);
   const [expanded, setExpanded] = useState({});
   const [sizeData, setSizeData] = useState({});
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
-  // ✅ FETCH CATEGORIES WHEN PHONE CHANGES
+  // ✅ Fetch categories
   useEffect(() => {
     if (!phone) {
       setAvailableCategories([]);
@@ -40,7 +39,6 @@ const UpdateCustomer = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ EXPAND CATEGORY
   const handleExpand = (cat) => {
     const key = cat.category;
 
@@ -72,16 +70,14 @@ const UpdateCustomer = () => {
     const cleanData = (obj) => {
       const newObj = {};
       Object.keys(obj).forEach((key) => {
-        if (obj[key] !== "") {
-          newObj[key] = obj[key];
-        }
+        if (obj[key] !== "") newObj[key] = obj[key];
       });
       return newObj;
     };
 
     let payload = {
       customerPhoneNumber: phone,
-      name: name, // ✅ IMPORTANT
+      name: name,
       ...cleanData(formData),
     };
 
@@ -89,30 +85,7 @@ const UpdateCustomer = () => {
       payload.pleats = trouserType;
     }
 
-    let endpoint = "";
-    switch (category.toLowerCase()) {
-      case "trouser":
-        endpoint = `${BASE_URL}/api/sizes/trouser/update`;
-        break;
-      case "kurta":
-        endpoint = `${BASE_URL}/api/sizes/kurta/update`;
-        break;
-      case "shirt":
-        endpoint = `${BASE_URL}/api/sizes/shirt/update`;
-        break;
-      case "coat":
-        endpoint = `${BASE_URL}/api/sizes/coat/update`;
-        break;
-      case "sherwani":
-        endpoint = `${BASE_URL}/api/sizes/sherwani/update`;
-        break;
-      case "waistcoat":
-        endpoint = `${BASE_URL}/api/sizes/waistcoat/update`;
-        break;
-      default:
-        alert("Invalid category");
-        return;
-    }
+    let endpoint = `${BASE_URL}/api/sizes/${category.toLowerCase()}/update`;
 
     fetch(endpoint, {
       method: "PUT",
@@ -135,7 +108,7 @@ const UpdateCustomer = () => {
   };
 
   return (
-    <div>
+    <div className="page-container">
       {/* NAVBAR */}
       <nav className="navbar">
         <div className="logo-section">
@@ -150,10 +123,10 @@ const UpdateCustomer = () => {
         </ul>
       </nav>
 
-      {/* MAIN LAYOUT */}
+      {/* MAIN */}
       <div style={{ display: "flex", gap: "40px", padding: "20px" }}>
-
-        {/* LEFT SIDE FORM */}
+        
+        {/* FORM */}
         <div style={{ flex: 1 }}>
           <h2>Update Customer Size</h2>
 
@@ -189,45 +162,11 @@ const UpdateCustomer = () => {
               <option value="Waistcoat">Waistcoat</option>
             </select>
 
-            {/* TROUSER */}
-            {category === "Trouser" && (
-              <>
-                <select
-                  value={trouserType}
-                  onChange={(e) => setTrouserType(e.target.value)}
-                >
-                  <option value="">Type</option>
-                  <option value="With Pleats">With Pleats</option>
-                  <option value="Without Pleats">Without Pleats</option>
-                </select>
-
-                {["length","waist","il","hips","thigh","r","knee","calf","bottom"]
-                  .map((f) => (
-                    <input key={f} name={f} onChange={handleChange} placeholder={f}/>
-                  ))}
-              </>
-            )}
-
-            {/* OTHER */}
-            {["Sherwani","Kurta","Shirt","Coat"].includes(category) && (
-              ["length","chest","gap","waist","hips","shoulder","sleeve","bicep","elbow","cuff","cb","neck"]
-                .map((f) => (
-                  <input key={f} name={f} onChange={handleChange} placeholder={f}/>
-                ))
-            )}
-
-            {category === "Waistcoat" && (
-              ["length","chest","gap","waist","hips","shoulder","neck"]
-                .map((f) => (
-                  <input key={f} name={f} onChange={handleChange} placeholder={f}/>
-                ))
-            )}
-
             <button type="submit">Update</button>
           </form>
         </div>
 
-        {/* RIGHT SIDE PANEL */}
+        {/* RIGHT PANEL */}
         <div style={{ width: "300px" }}>
           <h3>Existing Sizes</h3>
 
@@ -266,8 +205,40 @@ const UpdateCustomer = () => {
             })
           )}
         </div>
-
       </div>
+
+      {/* ✅ FOOTER BACK */}
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-brand">
+            <h2 className="brand-name">Raanjhanaa</h2>
+            <p className="tagline">Style that fits every story.</p>
+          </div>
+
+          <div className="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/add-size">Add Customer</Link></li>
+              <li><Link to="/update-customer">Update Customer</Link></li>
+              <li><Link to="/view-customer">View Customers</Link></li>
+            </ul>
+          </div>
+
+          <div className="footer-contact">
+            <h4>Contact</h4>
+            <p>Email: raanjhanaa13@gmail.com</p>
+            <p>Phone: +91 734-7278272</p>
+            <p>Phone: +91 98786 41457</p>
+
+            <div className="social-icons">
+              <a href="#"><FaFacebookF /></a>
+              <a href="#"><FaInstagram /></a>
+              <a href="#"><FaEnvelope /></a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
