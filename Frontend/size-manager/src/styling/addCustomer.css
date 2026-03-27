@@ -11,6 +11,62 @@
   font-family: "Zalando Sans SemiExpanded", sans-serif;
 }
 
+/* MAIN */
+.update-size-container {
+  display: flex;
+  gap: 60px;
+  width: 80%;
+  margin: 40px auto;
+  padding: 30px;
+  background: #f5f5f5;
+  border-radius: 12px;
+}
+
+/* LEFT */
+.update-form-section {
+  width: 60%;
+}
+
+/* RIGHT */
+.existing-section {
+  width: 400px;
+  text-align: center;
+}
+
+/* HEADING */
+.update-title {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* INPUTS */
+.update-form-section input,
+.update-form-section select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+/* SIZE CARD */
+.size-card {
+  background: black;
+  color: white;
+  padding: 10px;
+  margin: 10px auto;
+  width: 80%;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* DETAILS */
+.size-details {
+  background: #333;
+  color: white;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 5px;
+  text-align: left;
+}
 
 .add-size-container h2 {
   text-align: center;
