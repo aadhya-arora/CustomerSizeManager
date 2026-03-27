@@ -15,15 +15,15 @@ public class TrouserSize {
 
 
     private String pleats;
-    private double length;
-    private double waist;
-    private double il;
-    private double hips;
-    private double thigh;
-    private double r;
-    private double knee;
-    private double calf;
-    private double bottom;
+    private Double length;
+    private Double waist;
+    private Double il;
+    private Double hips;
+    private Double thigh;
+    private Double r;
+    private Double knee;
+    private Double calf;
+    private Double bottom;
     private String name;
 
     public String getName() {
@@ -52,75 +52,75 @@ public class TrouserSize {
         this.pleats = pleats;
     }
 
-    public double getLength() {
+    public Double getLength() {
         return length;
     }
 
-    public void setLength(double length) {
+    public void setLength(Double length) {
         this.length = length;
     }
 
-    public double getWaist() {
+    public Double getWaist() {
         return waist;
     }
 
-    public void setWaist(double waist) {
+    public void setWaist(Double waist) {
         this.waist = waist;
     }
 
-    public double getIl() {
+    public Double getIl() {
         return il;
     }
 
-    public void setIl(double il) {
+    public void setIl(Double il) {
         this.il = il;
     }
 
-    public double getHips() {
+    public Double getHips() {
         return hips;
     }
 
-    public void setHips(double hips) {
+    public void setHips(Double hips) {
         this.hips = hips;
     }
 
-    public double getThigh() {
+    public Double getThigh() {
         return thigh;
     }
 
-    public void setThigh(double thigh) {
+    public void setThigh(Double thigh) {
         this.thigh = thigh;
     }
 
-    public double getR() {
+    public Double getR() {
         return r;
     }
 
-    public void setR(double r) {
+    public void setR(Double r) {
         this.r = r;
     }
 
-    public double getKnee() {
+    public Double getKnee() {
         return knee;
     }
 
-    public void setKnee(double knee) {
+    public void setKnee(Double knee) {
         this.knee = knee;
     }
 
-    public double getCalf() {
+    public Double getCalf() {
         return calf;
     }
 
-    public void setCalf(double calf) {
+    public void setCalf(Double calf) {
         this.calf = calf;
     }
 
-    public double getBottom() {
+    public Double getBottom() {
         return bottom;
     }
 
-    public void setBottom(double bottom) {
+    public void setBottom(Double bottom) {
         this.bottom = bottom;
     }
 

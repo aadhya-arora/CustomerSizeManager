@@ -15,73 +15,83 @@ const UpdateCustomer = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!phone || !category) {
-      alert("Please fill out all required fields!");
-      return;
-    }
+  if (!phone || !category) {
+    alert("Please fill out all required fields!");
+    return;
+  }
 
-    const payload = {
-      ...formData,
-      customer: { phoneNumber: phone },
-    };
-
-    if (category.toLowerCase() === "trouser") {
-      payload.pleats = trouserType;
-    }
-
-    const BASE_URL = "https://raanjhana-backend.onrender.com";
-
-    let endpoint = "";
-    switch (category.toLowerCase()) {
-      case "trouser":
-        endpoint = `${BASE_URL}/api/sizes/trouser/update`;
-        break;
-      case "kurta":
-        endpoint = `${BASE_URL}/api/sizes/kurta/update`;
-        break;
-      case "shirt":
-        endpoint = `${BASE_URL}/api/sizes/shirt/update`;
-        break;
-      case "coat":
-        endpoint = `${BASE_URL}/api/sizes/coat/update`;
-        break;
-      case "sherwani":
-        endpoint = `${BASE_URL}/api/sizes/sherwani/update`;
-        break;
-      case "waistcoat":
-        endpoint = `${BASE_URL}/api/sizes/waistcoat/update`;
-        break;
-      default:
-        alert("Please select a valid category!");
-        return;
-    }
-
-    console.log("Updating with payload:", payload);
-
-    fetch(endpoint, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => {
-        if (res.status === 404) throw new Error("Customer not found");
-        if (!res.ok) throw new Error("Failed to update customer");
-        return res.text();
-      })
-      .then(() => {
-        alert("✅ Customer size updated successfully!");
-        setPhone("");
-        setCategory("");
-        setTrouserType("");
-        setFormData({});
-      })
-      .catch((err) => {
-        console.error("Update failed:", err);
-        alert("❌ Failed to update customer. Please try again.");
-      });
+  // ✅ remove empty fields
+  const cleanData = (obj) => {
+    const newObj = {};
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== "") {
+        newObj[key] = obj[key];
+      }
+    });
+    return newObj;
   };
+
+  let payload = {
+    customerPhoneNumber: phone,
+    ...cleanData(formData),
+  };
+
+  // ✅ handle trouser pleats separately
+  if (category.toLowerCase() === "trouser" && trouserType !== "") {
+    payload.pleats = trouserType;
+  }
+
+  const BASE_URL = "https://raanjhana-backend.onrender.com";
+
+  let endpoint = "";
+  switch (category.toLowerCase()) {
+    case "trouser":
+      endpoint = `${BASE_URL}/api/sizes/trouser/update`;
+      break;
+    case "kurta":
+      endpoint = `${BASE_URL}/api/sizes/kurta/update`;
+      break;
+    case "shirt":
+      endpoint = `${BASE_URL}/api/sizes/shirt/update`;
+      break;
+    case "coat":
+      endpoint = `${BASE_URL}/api/sizes/coat/update`;
+      break;
+    case "sherwani":
+      endpoint = `${BASE_URL}/api/sizes/sherwani/update`;
+      break;
+    case "waistcoat":
+      endpoint = `${BASE_URL}/api/sizes/waistcoat/update`;
+      break;
+    default:
+      alert("Invalid category");
+      return;
+  }
+
+  fetch(endpoint, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (!res.ok) throw new Error("Failed to update");
+      return res.text();
+    })
+    .then(() => {
+      alert("✅ Updated successfully!");
+
+      setPhone("");
+      setCategory("");
+      setTrouserType("");
+      setFormData({});
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("❌ Update failed");
+    });
+};
 
   return (
     <div>
@@ -150,7 +160,6 @@ const UpdateCustomer = () => {
               <select
                 value={trouserType}
                 onChange={(e) => setTrouserType(e.target.value)}
-                required
               >
                 <option value="">Select Type</option>
                 <option value="With Pleats">With Pleats</option>
@@ -176,7 +185,6 @@ const UpdateCustomer = () => {
                       name={field}
                       value={formData[field] || ""}
                       onChange={handleChange}
-                      required
                     />
                   </div>
                 ))}
@@ -210,7 +218,6 @@ const UpdateCustomer = () => {
                       name={field}
                       value={formData[field] || ""}
                       onChange={handleChange}
-                      required
                     />
                   </div>
                 ))}
@@ -239,7 +246,6 @@ const UpdateCustomer = () => {
                       name={field}
                       value={formData[field] || ""}
                       onChange={handleChange}
-                      required
                     />
                   </div>
                 ))}

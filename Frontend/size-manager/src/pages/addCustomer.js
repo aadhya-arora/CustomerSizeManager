@@ -63,110 +63,121 @@ const AddCustomerSize = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!phoneNumber || !category) {
-      alert("Please fill all required fields!");
-      return;
-    }
+  if (!phoneNumber || !category) {
+    alert("Please fill all required fields!");
+    return;
+  }
 
-    const payload = {
-    customerPhoneNumber: phoneNumber, 
+  // ✅ Convert empty strings to null
+  const cleanData = (obj) => {
+    const newObj = {};
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== "") {
+        newObj[key] = obj[key];
+      }
+    });
+    return newObj;
+  };
+
+  // ✅ Build payload
+  const payload = {
+    customerPhoneNumber: phoneNumber,
     name: customerName,
     ...(category === "trouser"
-      ? trouserData
+      ? cleanData(trouserData)
       : category === "waistcoat"
-      ? waistCoatData
-      : upperWearData),
+      ? cleanData(waistCoatData)
+      : cleanData(upperWearData)),
   };
 
-    const BASE_URL = "https://raanjhana-backend.onrender.com";
-    let endpoint = "";
-switch (category) {
-  case "trouser":
-    endpoint = `${BASE_URL}/api/sizes/trouser/add`;
-    break;
-  case "kurta":
-    endpoint = `${BASE_URL}/api/sizes/kurta/add`;
-    break;
-  case "shirt":
-    endpoint = `${BASE_URL}/api/sizes/shirt/add`;
-    break;
-  case "coat":
-    endpoint = `${BASE_URL}/api/sizes/coat/add`;
-    break;
-  case "sherwani":
-    endpoint = `${BASE_URL}/api/sizes/sherwani/add`;
-    break;
-  case "waistcoat":
-    endpoint = `${BASE_URL}/api/sizes/waistcoat/add`;
-    break;
+  const BASE_URL = "https://raanjhana-backend.onrender.com";
+
+  let endpoint = "";
+  switch (category) {
+    case "trouser":
+      endpoint = `${BASE_URL}/api/sizes/trouser/add`;
+      break;
+    case "kurta":
+      endpoint = `${BASE_URL}/api/sizes/kurta/add`;
+      break;
+    case "shirt":
+      endpoint = `${BASE_URL}/api/sizes/shirt/add`;
+      break;
+    case "coat":
+      endpoint = `${BASE_URL}/api/sizes/coat/add`;
+      break;
+    case "sherwani":
+      endpoint = `${BASE_URL}/api/sizes/sherwani/add`;
+      break;
+    case "waistcoat":
+      endpoint = `${BASE_URL}/api/sizes/waistcoat/add`;
+      break;
     default:
-  alert("Invalid category");
-  return;
-}
+      alert("Invalid category");
+      return;
+  }
 
-    fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
+  fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error("Failed to add customer");
+      }
+      return res.text();
     })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to add customer");
-        }
-        return res.text();
-      })
-      .then(() => {
-        alert(
-          `Size details added for ${category.toUpperCase()} of ${phoneNumber}`
-        );
+    .then(() => {
+      alert(`Size details added for ${category.toUpperCase()} of ${phoneNumber}`);
 
-        // ✅ Reset form after success
-        setPhoneNumber("");
-        setCategory("");
-        setTrouserData({
-          pleats: "",
-          length: "",
-          waist: "",
-          il: "",
-          hips: "",
-          thigh: "",
-          r: "",
-          knee: "",
-          calf: "",
-          bottom: "",
-        });
-        setUpperWearData({
-          length: "",
-          chest: "",
-          gap: "",
-          waist: "",
-          hips: "",
-          shoulder: "",
-          sleeve: "",
-          bicep: "",
-          elbow: "",
-          cuff: "",
-          cb: "",
-          neck: "",
-        });
-        setWaistCoatData({
-          length: "",
-          chest: "",
-          gap: "",
-          waist: "",
-          hips: "",
-          shoulder: "",
-          neck: "",
-        });
-      })
-      .catch((err) => {
-        console.error("Error adding customer:", err);
-        alert("Failed to add customer. Please try again.");
+      // Reset form
+      setPhoneNumber("");
+      setCustomerName("");
+      setCategory("");
+      setTrouserData({
+        pleats: "",
+        length: "",
+        waist: "",
+        il: "",
+        hips: "",
+        thigh: "",
+        r: "",
+        knee: "",
+        calf: "",
+        bottom: "",
       });
-  };
-
+      setUpperWearData({
+        length: "",
+        chest: "",
+        gap: "",
+        waist: "",
+        hips: "",
+        shoulder: "",
+        sleeve: "",
+        bicep: "",
+        elbow: "",
+        cuff: "",
+        cb: "",
+        neck: "",
+      });
+      setWaistCoatData({
+        length: "",
+        chest: "",
+        gap: "",
+        waist: "",
+        hips: "",
+        shoulder: "",
+        neck: "",
+      });
+    })
+    .catch((err) => {
+      console.error("Error adding customer:", err);
+      alert("Failed to add customer. Please try again.");
+    });
+};
   const upperWearFields = [
     { label: "Length", name: "length" },
     { label: "Chest", name: "chest" },
@@ -288,7 +299,6 @@ switch (category) {
                 name="pleats"
                 value={trouserData.pleats}
                 onChange={handleTrouserChange}
-                required
               >
                 <option value="">-- Select Option --</option>
                 <option value="with pleats">With Pleats</option>
@@ -306,7 +316,6 @@ switch (category) {
                       placeholder={`Enter ${field.label}`}
                       value={trouserData[field.name]}
                       onChange={handleTrouserChange}
-                      required
                     />
                   </div>
                 ))}
@@ -332,7 +341,6 @@ switch (category) {
                       placeholder={`Enter ${field.label}`}
                       value={upperWearData[field.name]}
                       onChange={handleUpperWearChange}
-                      required
                     />
                   </div>
                 ))}
@@ -355,7 +363,6 @@ switch (category) {
                       placeholder={`Enter ${field.label}`}
                       value={waistCoatData[field.name]}
                       onChange={handleWaistCoatChange}
-                      required
                     />
                   </div>
                 ))}
