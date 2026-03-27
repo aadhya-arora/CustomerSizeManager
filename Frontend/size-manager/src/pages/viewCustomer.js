@@ -17,7 +17,7 @@ const ViewCustomer = () => {
   const [loading, setLoading] = useState(true);
   const [expandedRows, setExpandedRows] = useState({});
   const [sizeCache, setSizeCache] = useState({});
-  const BASE_URL = process.env.REACT_APP_API_URL;
+  const BASE_URL = "https://raanjhana-backend.onrender.com";
 
 
   useEffect(() => {
