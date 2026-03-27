@@ -16,10 +16,10 @@ const [sizeData, setSizeData] = useState({});
 
 
   useEffect(() => {
-  if (!phone) {
-    setAvailableCategories([]);
-    return;
-  }
+  if (!phone || phone.length < 5) {
+  setAvailableCategories([]);
+  return;
+}
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
@@ -27,8 +27,8 @@ const [sizeData, setSizeData] = useState({});
     .then(res => res.json())
     .then(data => {
       const filtered = data.filter(
-        (c) => c.phoneNumber === phone
-      );
+  (c) => c.phoneNumber?.includes(phone.trim())
+);
       setAvailableCategories(filtered);
     })
     .catch(err => console.error(err));
@@ -173,9 +173,9 @@ const handleExpand = (cat) => {
         </ul>
       </nav>
 
-      <div className="add-size-container">
+      <div className="add-size-container"  style={{ display: "flex", gap: "40px" }}>
         <h2>Update Customer Size</h2>
-
+        <div style={{flex:1}}>
         <form className="add-size-form" onSubmit={handleSubmit}>
           <label>Phone Number</label>
           <input
@@ -315,7 +315,10 @@ const handleExpand = (cat) => {
             Update Size
           </button>
         </form>
-        <div style={{ marginTop: "30px" }}>
+        </div>
+
+
+        <div style={{ width: "350px" }}>
   <h3>Existing Sizes</h3>
 
   {availableCategories.length === 0 ? (
