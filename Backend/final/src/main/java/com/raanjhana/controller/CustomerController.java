@@ -5,17 +5,12 @@ import com.raanjhana.repository.*;
 import com.raanjhana.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.raanjhana.repository.TrouserRepository;
-import com.raanjhana.repository.ShirtRepository;
-import com.raanjhana.repository.CoatRepository;
-import com.raanjhana.repository.KurtaRepository;
-import com.raanjhana.repository.SherwaniRepository;
-import com.raanjhana.repository.WaistcoatRepository;
 
 import java.util.*;
 
 @RestController
 @RequestMapping("/api/customers")
+@CrossOrigin(origins = "*") // ✅ important for frontend
 public class CustomerController {
 
     @Autowired
@@ -39,7 +34,7 @@ public class CustomerController {
     @Autowired
     private WaistcoatRepository waistcoatRepository;
 
-    // ---------------- CRUD ENDPOINTS ---------------- //
+    // ---------------- CRUD ---------------- //
 
     @PostMapping("/add")
     public String addCustomer(@RequestBody Customer c) {
@@ -69,58 +64,95 @@ public class CustomerController {
         return deleted ? "Customer deleted" : "Customer not found";
     }
 
-    // ---------------- EXTRA: for ViewCustomer ---------------- //
+    // ---------------- SAFE VERSION ---------------- //
 
     @GetMapping("/all-with-categories")
     public List<Map<String, String>> getAllCustomersWithCategories() {
         List<Map<String, String>> result = new ArrayList<>();
 
         List<Customer> allCustomers = service.getAll();
+
         for (Customer customer : allCustomers) {
             String phone = customer.getCustomerPhoneNumber();
+            String name = customer.getName() != null ? customer.getName() : "Unknown";
 
-            // ✅ Use new JPA relationships
-            if (trouserRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of(
-                        "phoneNumber", phone,
-                        "name", customer.getName(),
-                        "category", "Trouser"
-                ));
+            // ✅ Trouser
+            try {
+                if (trouserRepository.findByCustomerPhoneNumber(phone) != null) {
+                    result.add(Map.of(
+                            "phoneNumber", phone,
+                            "name", name,
+                            "category", "Trouser"
+                    ));
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching Trouser for " + phone);
+            }
 
-            if (shirtRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of(
-                        "phoneNumber", phone,
-                        "name", customer.getName(),
-                        "category", "Shirt"
-                ));
+            // ✅ Shirt
+            try {
+                if (shirtRepository.findByCustomerPhoneNumber(phone) != null) {
+                    result.add(Map.of(
+                            "phoneNumber", phone,
+                            "name", name,
+                            "category", "Shirt"
+                    ));
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching Shirt for " + phone);
+            }
 
-            if (coatRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of(
-                        "phoneNumber", phone,
-                        "name", customer.getName(),
-                        "category", "Coat"
-                ));
+            // ✅ Coat
+            try {
+                if (coatRepository.findByCustomerPhoneNumber(phone) != null) {
+                    result.add(Map.of(
+                            "phoneNumber", phone,
+                            "name", name,
+                            "category", "Coat"
+                    ));
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching Coat for " + phone);
+            }
 
-            if (kurtaRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of(
-                        "phoneNumber", phone,
-                        "name", customer.getName(),
-                        "category", "Kurta"
-                ));
+            // ✅ Kurta
+            try {
+                if (kurtaRepository.findByCustomerPhoneNumber(phone) != null) {
+                    result.add(Map.of(
+                            "phoneNumber", phone,
+                            "name", name,
+                            "category", "Kurta"
+                    ));
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching Kurta for " + phone);
+            }
 
-            if (sherwaniRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of(
-                        "phoneNumber", phone,
-                        "name", customer.getName(),
-                        "category", "Sherwani"
-                ));
+            // ✅ Sherwani
+            try {
+                if (sherwaniRepository.findByCustomerPhoneNumber(phone) != null) {
+                    result.add(Map.of(
+                            "phoneNumber", phone,
+                            "name", name,
+                            "category", "Sherwani"
+                    ));
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching Sherwani for " + phone);
+            }
 
-            if (waistcoatRepository.findByCustomerPhoneNumber(phone) != null)
-                result.add(Map.of(
-                        "phoneNumber", phone,
-                        "name", customer.getName(),
-                        "category", "Waistcoat"
-                ));
+            // ✅ Waistcoat
+            try {
+                if (waistcoatRepository.findByCustomerPhoneNumber(phone) != null) {
+                    result.add(Map.of(
+                            "phoneNumber", phone,
+                            "name", name,
+                            "category", "Waistcoat"
+                    ));
+                }
+            } catch (Exception e) {
+                System.out.println("Error fetching Waistcoat for " + phone);
+            }
         }
 
         return result;
