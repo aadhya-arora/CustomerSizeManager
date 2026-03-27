@@ -9,6 +9,7 @@ const UpdateCustomer = () => {
   const [category, setCategory] = useState("");
   const [trouserType, setTrouserType] = useState("");
   const [formData, setFormData] = useState({});
+  const [name, setName] = useState("");
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -35,10 +36,10 @@ const UpdateCustomer = () => {
 
   let payload = {
     customerPhoneNumber: phone,
+    name: name,
     ...cleanData(formData),
   };
 
-  // ✅ handle trouser pleats separately
   if (category.toLowerCase() === "trouser" && trouserType !== "") {
     payload.pleats = trouserType;
   }
@@ -83,6 +84,7 @@ const UpdateCustomer = () => {
       alert("✅ Updated successfully!");
 
       setPhone("");
+      setName("");
       setCategory("");
       setTrouserType("");
       setFormData({});
@@ -134,6 +136,15 @@ const UpdateCustomer = () => {
             placeholder="Enter customer's phone number"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
+            required
+          />
+
+          <label>Customer Name</label>
+          <input
+            type="text"
+            placeholder="Enter customer's name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             required
           />
 

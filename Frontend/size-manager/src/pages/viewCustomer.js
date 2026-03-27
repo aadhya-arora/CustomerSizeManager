@@ -133,6 +133,7 @@ const ViewCustomer = () => {
           <table className="customer-table">
             <thead>
               <tr>
+                <th>Name</th>
                 <th>Phone Number</th>
                 <th>Category</th>
               </tr>
@@ -148,6 +149,7 @@ const ViewCustomer = () => {
                       className="clickable-row"
                       onClick={() => handleRowClick(cust)}
                     >
+                      <td>{cust.name}</td>
                       <td>{cust.phoneNumber}</td>
                       <td>{cust.category}</td>
                     </tr>

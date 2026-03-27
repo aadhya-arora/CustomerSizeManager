@@ -113,7 +113,7 @@ public class SizeService {
 
     // ✅ Update logic
     public void updateTrouser(TrouserSize t) {
-        ensureCustomerExists(t.getCustomerPhoneNumber(), "Trouser");
+        ensureCustomerExists(t.getCustomerPhoneNumber(), t.getName());
         TrouserSize existing = trouserRepo.findByCustomerPhoneNumber(t.getCustomerPhoneNumber());
         if (existing != null) {
             t.setId(existing.getId());
@@ -122,35 +122,35 @@ public class SizeService {
     }
 
     public void updateSherwani(SherwaniSize s) {
-        ensureCustomerExists(s.getCustomerPhoneNumber(), "Sherwani");
+        ensureCustomerExists(s.getCustomerPhoneNumber(), s.getName());
         SherwaniSize existing = sherwaniRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
         if (existing != null) s.setId(existing.getId());
         sherwaniRepo.save(s);
     }
 
     public void updateShirt(ShirtSize s) {
-        ensureCustomerExists(s.getCustomerPhoneNumber(), "Shirt");
+        ensureCustomerExists(s.getCustomerPhoneNumber(), s.getName());
         ShirtSize existing = shirtRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
         if (existing != null) s.setId(existing.getId());
         shirtRepo.save(s);
     }
 
     public void updateCoat(CoatSize s) {
-        ensureCustomerExists(s.getCustomerPhoneNumber(), "Coat");
+        ensureCustomerExists(s.getCustomerPhoneNumber(), s.getName());
         CoatSize existing = coatRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
         if (existing != null) s.setId(existing.getId());
         coatRepo.save(s);
     }
 
     public void updateWaistcoat(WaistcoatSize s) {
-        ensureCustomerExists(s.getCustomerPhoneNumber(), "Waistcoat");
+        ensureCustomerExists(s.getCustomerPhoneNumber(), s.getName());
         WaistcoatSize existing = waistRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
         if (existing != null) s.setId(existing.getId());
         waistRepo.save(s);
     }
 
     public void updateKurta(KurtaSize s) {
-        ensureCustomerExists(s.getCustomerPhoneNumber(), "Kurta");
+        ensureCustomerExists(s.getCustomerPhoneNumber(), s.getName());
         KurtaSize existing = kurtaRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
         if (existing != null) s.setId(existing.getId());
         kurtaRepo.save(s);
