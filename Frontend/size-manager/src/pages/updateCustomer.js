@@ -19,10 +19,12 @@ const [loadingSizes, setLoadingSizes] = useState(false);
  useEffect(() => {
   if (!phone) {
     setAvailableCategories([]);
+    setLoadingSizes(false);
     return;
   }
 
   setLoadingSizes(true);
+  setAvailableCategories([]);
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
