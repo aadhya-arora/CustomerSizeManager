@@ -19,28 +19,32 @@ const [loadingSizes, setLoadingSizes] = useState(false);
  useEffect(() => {
   if (!phone) {
     setAvailableCategories([]);
-    setLoadingSizes(false);
     return;
   }
 
-  setLoadingSizes(true);  // ✅ SHOW IMMEDIATELY
+  setLoadingSizes(true);
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
-  fetch(`${BASE_URL}/api/customers/all-with-categories`)
-    .then(res => res.json())
-    .then(data => {
-      const filtered = data.filter(
-        (c) => c.phoneNumber?.includes(phone.trim())
-      );
-      setAvailableCategories(filtered);
-      setLoadingSizes(false);
-    })
-    .catch(err => {
-      console.error(err);
-      setLoadingSizes(false);
-    });
+  const categories = ["trouser", "shirt", "kurta", "coat", "sherwani", "waistcoat"];
 
+  Promise.all(
+    categories.map((cat) =>
+      fetch(`${BASE_URL}/api/sizes/${cat}/${phone}`)
+        .then((res) => (res.ok ? res.json() : null))
+        .then((data) => (data ? cat : null))
+        .catch(() => null)
+    )
+  ).then((results) => {
+    const filtered = results
+      .filter((c) => c !== null)
+      .map((c) => ({
+        category: c.charAt(0).toUpperCase() + c.slice(1),
+      }));
+
+    setAvailableCategories(filtered);
+    setLoadingSizes(false);
+  });
 }, [phone]);
 
 const handleExpand = (cat) => {
