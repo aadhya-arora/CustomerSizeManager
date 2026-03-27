@@ -101,6 +101,9 @@ switch (category) {
   case "waistcoat":
     endpoint = `${BASE_URL}/api/sizes/waistcoat/add`;
     break;
+    default:
+  alert("Invalid category");
+  return;
 }
 
     fetch(endpoint, {
