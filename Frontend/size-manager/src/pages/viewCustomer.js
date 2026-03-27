@@ -202,9 +202,15 @@ const ViewCustomer = () => {
             <p>Phone: +91 734-7278272</p>
             <p>Phone: +91 98786 41457</p>
             <div className="social-icons">
-              <a href="#"><FaFacebookF /></a>
-              <a href="#"><FaInstagram /></a>
-              <a href="#"><FaEnvelope /></a>
+              <a href="https://www.facebook.com/raanjhanaa.amritsar/">
+                             <FaFacebookF />
+                           </a>
+                           <a href="https://www.instagram.com/raanjhanaa_amritsar/?hl=en">
+                             <FaInstagram />
+                           </a>
+                           <a href="mailto:raanjhanaa@gmail.com">
+                             <FaEnvelope />
+                           </a>
             </div>
           </div>
         </div>
