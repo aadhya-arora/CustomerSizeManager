@@ -63,6 +63,9 @@ useEffect(() => {
   const filteredCustomers = customers.filter((cust) => {
   const search = searchTerm.toLowerCase();
 
+  if (/^\d{10}$/.test(search)) {
+    return cust.phoneNumber === search; 
+  }
   return (
     cust.phoneNumber?.toLowerCase().includes(search) ||
     cust.name?.toLowerCase().includes(search)
@@ -276,25 +279,7 @@ useEffect(() => {
               required
             />
 
-            {/* SEARCH DROPDOWN */}
-            {searchTerm && (
-              <div className="search-results">
-                {filteredCustomers.slice(0, 5).map((cust, index) => (
-                  <div
-                    key={index}
-                    className="search-item"
-                    onClick={() => {
-                      setIsSelecting(true);
-                      setPhone(cust.phoneNumber);
-                      setName(cust.name);
-                      setSearchTerm("");
-                    }}
-                  >
-                    {cust.name} - {cust.phoneNumber} ({cust.category})
-                  </div>
-                ))}
-              </div>
-            )}
+            
 
             {/* CATEGORY */}
             <label>Select Category</label>
@@ -423,6 +408,24 @@ useEffect(() => {
 
           <div className="existing-section">
   <h3>Existing Sizes</h3>
+            {searchTerm && availableCategories.length === 0 && (
+              <div className="search-results">
+                {filteredCustomers.slice(0, 5).map((cust, index) => (
+                  <div
+                    key={index}
+                    className="search-item"
+                    onClick={() => {
+                      setIsSelecting(true);
+                      setPhone(cust.phoneNumber);
+                      setName(cust.name);
+                      setSearchTerm("");
+                    }}
+                  >
+                    {cust.name} - {cust.phoneNumber} ({cust.category})
+                  </div>
+                ))}
+              </div>
+            )}
 
 {loadingSizes ? (
   <p className="no-data">🔍 Searching...</p>
