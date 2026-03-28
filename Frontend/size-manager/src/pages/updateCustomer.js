@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../styling/addCustomer.css";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
@@ -10,152 +10,217 @@ const UpdateCustomer = () => {
   const [trouserType, setTrouserType] = useState("");
   const [formData, setFormData] = useState({});
   const [name, setName] = useState("");
+
   const [availableCategories, setAvailableCategories] = useState([]);
-const [expanded, setExpanded] = useState({});
-const [sizeData, setSizeData] = useState({});
-const [loadingSizes, setLoadingSizes] = useState(false);
+  const [expanded, setExpanded] = useState({});
+  const [sizeData, setSizeData] = useState({});
+  const [loadingSizes, setLoadingSizes] = useState(false);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [customers, setCustomers] = useState([]);
 
- useEffect(() => {
-  if (!phone) {
-    setAvailableCategories([]);
-    setLoadingSizes(false);
-    return;
-  }
-
-  setLoadingSizes(true);
-  setAvailableCategories([]);
-
-  const BASE_URL = "https://raanjhana-backend.onrender.com";
-
-  const categories = ["trouser", "shirt", "kurta", "coat", "sherwani", "waistcoat"];
-
-  Promise.all(
-    categories.map((cat) =>
-      fetch(`${BASE_URL}/api/sizes/${cat}/${phone}`)
-        .then((res) => (res.ok ? res.json() : null))
-        .then((data) => (data ? cat : null))
-        .catch(() => null)
-    )
-  ).then((results) => {
-    const filtered = results
-      .filter((c) => c !== null)
-      .map((c) => ({
-        category: c.charAt(0).toUpperCase() + c.slice(1),
-      }));
-
-    setAvailableCategories(filtered);
-    setLoadingSizes(false);
-  });
-}, [phone]);
-
-const handleExpand = (cat) => {
-  const key = cat.category;
-
-  if (expanded[key]) {
-    setExpanded(prev => ({ ...prev, [key]: false }));
-    return;
-  }
-
-  setExpanded(prev => ({ ...prev, [key]: true }));
-
-  if (!sizeData[key]) {
+  // ✅ FETCH CUSTOMERS
+  useEffect(() => {
     const BASE_URL = "https://raanjhana-backend.onrender.com";
 
-    fetch(`${BASE_URL}/api/sizes/${cat.category.toLowerCase()}/${phone}`)
-      .then(res => res.json())
-      .then(data => {
-        setSizeData(prev => ({ ...prev, [key]: data }));
-      })
-      .catch(err => console.error(err));
-  }
-};
+    fetch(`${BASE_URL}/api/customers/all-with-categories`)
+      .then((res) => res.json())
+      .then((data) => setCustomers(Array.isArray(data) ? data : []))
+      .catch((err) => console.error(err));
+  }, []);
 
+  useEffect(() => {
+  if (!phone) return;
+
+  const match = customers.find(
+    (cust) => cust.phoneNumber === phone
+  );
+
+  if (match && match.name !== name) {
+    setName(match.name);
+  }
+}, [phone, customers, name]);
+
+ useEffect(() => {
+  if (!name) return;
+
+  const match = customers.find(
+    (cust) => cust.name?.toLowerCase() === name.toLowerCase()
+  );
+
+  if (match && match.phoneNumber !== phone) {
+    setPhone(match.phoneNumber);
+  }
+}, [name, customers, phone]);
+
+  // ✅ FILTER CUSTOMERS (for dropdown)
+  const filteredCustomers = customers.filter((cust) => {
+    const search = (phone + " " + name).toLowerCase();
+    return (
+      cust.phoneNumber?.toLowerCase().includes(search) ||
+      cust.name?.toLowerCase().includes(search)
+    );
+  });
+
+  // ✅ FETCH EXISTING SIZES
+  useEffect(() => {
+   if (!phone) {
+  setAvailableCategories([]);
+
+  // 🔥 show searching when typing either name OR phone
+  if (searchTerm || name) {
+    setLoadingSizes(true);
+  } else {
+    setLoadingSizes(false);
+  }
+
+  return;
+}
+
+
+    setLoadingSizes(true);
+    setAvailableCategories([]);
+
+    const BASE_URL = "https://raanjhana-backend.onrender.com";
+
+    const categories = [
+      "trouser",
+      "shirt",
+      "kurta",
+      "coat",
+      "sherwani",
+      "waistcoat",
+    ];
+
+    Promise.all(
+      categories.map((cat) =>
+        fetch(`${BASE_URL}/api/sizes/${cat}/${phone}`)
+          .then((res) => (res.ok ? res.json() : null))
+          .then((data) => (data ? cat : null))
+          .catch(() => null)
+      )
+    ).then((results) => {
+      const filtered = results
+        .filter((c) => c !== null)
+        .map((c) => ({
+          category: c.charAt(0).toUpperCase() + c.slice(1),
+        }));
+
+      setAvailableCategories(filtered);
+      setLoadingSizes(false);
+    });
+  }, [phone, searchTerm, name]);
+
+  // ✅ EXPAND CATEGORY
+  const handleExpand = (cat) => {
+    const key = cat.category;
+
+    if (expanded[key]) {
+      setExpanded((prev) => ({ ...prev, [key]: false }));
+      return;
+    }
+
+    setExpanded((prev) => ({ ...prev, [key]: true }));
+
+    if (!sizeData[key]) {
+      const BASE_URL = "https://raanjhana-backend.onrender.com";
+
+      fetch(
+        `${BASE_URL}/api/sizes/${cat.category.toLowerCase()}/${phone}`
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          setSizeData((prev) => ({ ...prev, [key]: data }));
+        })
+        .catch((err) => console.error(err));
+    }
+  };
+
+  // ✅ HANDLE FORM CHANGE
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // ✅ SUBMIT UPDATE
   const handleSubmit = (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (!phone || !category) {
-    alert("Please fill out all required fields!");
-    return;
-  }
-
-  // ✅ remove empty fields
-  const cleanData = (obj) => {
-    const newObj = {};
-    Object.keys(obj).forEach((key) => {
-      if (obj[key] !== "") {
-        newObj[key] = obj[key];
-      }
-    });
-    return newObj;
-  };
-
-  let payload = {
-    customerPhoneNumber: phone,
-    name: name,
-    ...cleanData(formData),
-  };
-
-  if (category.toLowerCase() === "trouser" && trouserType !== "") {
-    payload.pleats = trouserType;
-  }
-
-  const BASE_URL = "https://raanjhana-backend.onrender.com";
-
-
-  let endpoint = "";
-  switch (category.toLowerCase()) {
-    case "trouser":
-      endpoint = `${BASE_URL}/api/sizes/trouser/update`;
-      break;
-    case "kurta":
-      endpoint = `${BASE_URL}/api/sizes/kurta/update`;
-      break;
-    case "shirt":
-      endpoint = `${BASE_URL}/api/sizes/shirt/update`;
-      break;
-    case "coat":
-      endpoint = `${BASE_URL}/api/sizes/coat/update`;
-      break;
-    case "sherwani":
-      endpoint = `${BASE_URL}/api/sizes/sherwani/update`;
-      break;
-    case "waistcoat":
-      endpoint = `${BASE_URL}/api/sizes/waistcoat/update`;
-      break;
-    default:
-      alert("Invalid category");
+    if (!phone || !category) {
+      alert("Please fill out all required fields!");
       return;
-  }
+    }
 
-  fetch(endpoint, {
-    method: "PUT",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  })
-    .then((res) => {
-      if (!res.ok) throw new Error("Failed to update");
-      return res.text();
+    const cleanData = (obj) => {
+      const newObj = {};
+      Object.keys(obj).forEach((key) => {
+        if (obj[key] !== "") {
+          newObj[key] = obj[key];
+        }
+      });
+      return newObj;
+    };
+
+    let payload = {
+      customerPhoneNumber: phone,
+      name: name,
+      ...cleanData(formData),
+    };
+
+    if (category.toLowerCase() === "trouser" && trouserType !== "") {
+      payload.pleats = trouserType;
+    }
+
+    const BASE_URL = "https://raanjhana-backend.onrender.com";
+
+    let endpoint = "";
+    switch (category.toLowerCase()) {
+      case "trouser":
+        endpoint = `${BASE_URL}/api/sizes/trouser/update`;
+        break;
+      case "kurta":
+        endpoint = `${BASE_URL}/api/sizes/kurta/update`;
+        break;
+      case "shirt":
+        endpoint = `${BASE_URL}/api/sizes/shirt/update`;
+        break;
+      case "coat":
+        endpoint = `${BASE_URL}/api/sizes/coat/update`;
+        break;
+      case "sherwani":
+        endpoint = `${BASE_URL}/api/sizes/sherwani/update`;
+        break;
+      case "waistcoat":
+        endpoint = `${BASE_URL}/api/sizes/waistcoat/update`;
+        break;
+      default:
+        alert("Invalid category");
+        return;
+    }
+
+    fetch(endpoint, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
     })
-    .then(() => {
-      alert("✅ Updated successfully!");
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to update");
+        return res.text();
+      })
+      .then(() => {
+        alert("✅ Updated successfully!");
 
-      setPhone("");
-      setName("");
-      setCategory("");
-      setTrouserType("");
-      setFormData({});
-    })
-    .catch((err) => {
-      console.error(err);
-      alert("❌ Update failed");
-    });
-};
-
+        setPhone("");
+        setName("");
+        setCategory("");
+        setTrouserType("");
+        setFormData({});
+        setSearchTerm("");
+      })
+      .catch((err) => {
+        console.error(err);
+        alert("❌ Update failed");
+      });
+  };
 
   return (
     <div>
@@ -165,67 +230,80 @@ const handleExpand = (cat) => {
           <span className="brand-name">aanjhanaa</span>
         </div>
         <ul className="nav-links">
-          <li>
-            <Link to="/" className="nav-item">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/add-size" className="nav-item">
-              Add Customer
-            </Link>
-          </li>
-          <li>
-            <Link to="/update-customer" className="nav-item active">
-              Update Customer
-            </Link>
-          </li>
-          <li>
-            <Link to="/view-customer" className="nav-item">
-              View Customers
-            </Link>
-          </li>
+          <li><Link to="/" className="nav-item">Home</Link></li>
+          <li><Link to="/add-size" className="nav-item">Add Customer</Link></li>
+          <li><Link to="/update-customer" className="nav-item active">Update Customer</Link></li>
+          <li><Link to="/view-customer" className="nav-item">View Customers</Link></li>
         </ul>
       </nav>
-      
-        <h2 className="update-title">Update Customer Size</h2>
-      <div className="update-size-container" >
+
+      <h2 className="update-title">Update Customer Size</h2>
+
+      <div className="update-size-container">
         <div className="update-form-section">
-        <form className="add-size-form" onSubmit={handleSubmit}>
-          <label>Phone Number</label>
-          <input
-            type="tel"
-            placeholder="Enter customer's phone number"
-            value={phone}
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
+          <form className="add-size-form" onSubmit={handleSubmit}>
 
-          <label>Customer Name</label>
-          <input
-            type="text"
-            placeholder="Enter customer's name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+            {/* PHONE */}
+            <label>Phone Number</label>
+            <input
+              type="tel"
+              placeholder="Enter customer's phone number"
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setSearchTerm(e.target.value);
+              }}
+              required
+            />
 
-          <label>Select Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-            className="select-category"
-          >
-            <option value="">-- Select Category --</option>
-            <option value="Trouser">Trouser</option>
-            <option value="Sherwani">Sherwani</option>
-            <option value="Kurta">Kurta</option>
-            <option value="Shirt">Shirt</option>
-            <option value="Coat">Coat</option>
-            <option value="Waistcoat">Waist Coat</option>
-          </select>
+            {/* NAME */}
+            <label>Customer Name</label>
+            <input
+              type="text"
+              placeholder="Enter customer's name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setSearchTerm(e.target.value);
+              }}
+              required
+            />
 
+            {/* SEARCH DROPDOWN */}
+            {searchTerm && (
+              <div className="search-results">
+                {filteredCustomers.slice(0, 5).map((cust, index) => (
+                  <div
+                    key={index}
+                    className="search-item"
+                    onClick={() => {
+                      setPhone(cust.phoneNumber);
+                      setName(cust.name);
+                      setSearchTerm("");
+                    }}
+                  >
+                    {cust.name} - {cust.phoneNumber} ({cust.category})
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* CATEGORY */}
+            <label>Select Category</label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+              className="select-category"
+            >
+              <option value="">-- Select Category --</option>
+              <option value="Trouser">Trouser</option>
+              <option value="Sherwani">Sherwani</option>
+              <option value="Kurta">Kurta</option>
+              <option value="Shirt">Shirt</option>
+              <option value="Coat">Coat</option>
+              <option value="Waistcoat">Waist Coat</option>
+            </select>
           {category === "Trouser" && (
             <div className="category-section">
               <h3>Trouser Details</h3>
