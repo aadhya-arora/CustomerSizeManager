@@ -30,29 +30,29 @@ const UpdateCustomer = () => {
       .catch((err) => console.error(err));
   }, []);
 
- useEffect(() => {
-  if (!phone || isSelecting) return;
+//  useEffect(() => {
+//   if (!phone || isSelecting) return;
 
-  const match = customers.find(
-    (cust) => cust.phoneNumber === phone
-  );
+//   const match = customers.find(
+//     (cust) => cust.phoneNumber === phone
+//   );
 
-  if (match && match.name !== name) {
-    setName(match.name);
-  }
-}, [phone, customers, name, isSelecting]);
+//   if (match && match.name !== name) {
+//     setName(match.name);
+//   }
+// }, [phone, customers, name, isSelecting]);
 
- useEffect(() => {
-  if (!name || isSelecting) return;
+//  useEffect(() => {
+//   if (!name || isSelecting) return;
 
-  const match = customers.find(
-    (cust) => cust.name?.toLowerCase() === name.toLowerCase()
-  );
+//   const match = customers.find(
+//     (cust) => cust.name?.toLowerCase() === name.toLowerCase()
+//   );
 
-  if (match && match.phoneNumber !== phone) {
-    setPhone(match.phoneNumber);
-  }
-}, [name, customers, phone, isSelecting]);
+//   if (match && match.phoneNumber !== phone) {
+//     setPhone(match.phoneNumber);
+//   }
+// }, [name, customers, phone, isSelecting]);
 
 useEffect(() => {
   if (isSelecting) {
@@ -61,15 +61,15 @@ useEffect(() => {
 }, [phone, name, isSelecting]);
 
   const filteredCustomers = customers.filter((cust) => {
-  const search = searchTerm.toLowerCase();
+  const search = searchTerm.trim().toLowerCase();
 
-  if (/^\d{10}$/.test(search)) {
-    return cust.phoneNumber === search; 
+  if (/^\d+$/.test(search)) {
+    if (search.length === 10) {
+      return cust.phoneNumber === search;
+    }
+    return cust.phoneNumber?.includes(search);
   }
-  return (
-    cust.phoneNumber?.toLowerCase().includes(search) ||
-    cust.name?.toLowerCase().includes(search)
-  );
+  return cust.name?.toLowerCase().includes(search);
 });
 
   // ✅ FETCH EXISTING SIZES
@@ -415,7 +415,7 @@ useEffect(() => {
                     key={index}
                     className="search-item"
                     onClick={() => {
-                      setIsSelecting(true);
+                      // setIsSelecting(true);
                       setPhone(cust.phoneNumber);
                       setName(cust.name);
                       setSearchTerm("");
