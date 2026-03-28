@@ -18,6 +18,7 @@ const UpdateCustomer = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [customers, setCustomers] = useState([]);
+  const [isSelecting, setIsSelecting] = useState(false);
 
   // ✅ FETCH CUSTOMERS
   useEffect(() => {
@@ -29,8 +30,8 @@ const UpdateCustomer = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  useEffect(() => {
-  if (!phone) return;
+ useEffect(() => {
+  if (!phone || isSelecting) return;
 
   const match = customers.find(
     (cust) => cust.phoneNumber === phone
@@ -39,10 +40,10 @@ const UpdateCustomer = () => {
   if (match && match.name !== name) {
     setName(match.name);
   }
-}, [phone, customers, name]);
+}, [phone, customers, name, isSelecting]);
 
  useEffect(() => {
-  if (!name) return;
+  if (!name || isSelecting) return;
 
   const match = customers.find(
     (cust) => cust.name?.toLowerCase() === name.toLowerCase()
@@ -51,16 +52,22 @@ const UpdateCustomer = () => {
   if (match && match.phoneNumber !== phone) {
     setPhone(match.phoneNumber);
   }
-}, [name, customers, phone]);
+}, [name, customers, phone, isSelecting]);
 
-  // ✅ FILTER CUSTOMERS (for dropdown)
+useEffect(() => {
+  if (isSelecting) {
+    setIsSelecting(false);
+  }
+}, [phone, name, isSelecting]);
+
   const filteredCustomers = customers.filter((cust) => {
-    const search = (phone + " " + name).toLowerCase();
-    return (
-      cust.phoneNumber?.toLowerCase().includes(search) ||
-      cust.name?.toLowerCase().includes(search)
-    );
-  });
+  const search = searchTerm.toLowerCase();
+
+  return (
+    cust.phoneNumber?.toLowerCase().includes(search) ||
+    cust.name?.toLowerCase().includes(search)
+  );
+});
 
   // ✅ FETCH EXISTING SIZES
   useEffect(() => {
@@ -277,6 +284,7 @@ const UpdateCustomer = () => {
                     key={index}
                     className="search-item"
                     onClick={() => {
+                      setIsSelecting(true);
                       setPhone(cust.phoneNumber);
                       setName(cust.name);
                       setSearchTerm("");
