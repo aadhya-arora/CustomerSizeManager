@@ -10,7 +10,14 @@ import "../styling/viewCustomer.css";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
 
+
 const ViewCustomer = () => {
+  const renderStars = (value) => {
+  if (typeof value === "number" && value > 0 && value <= 3) {
+    return "★".repeat(value); // or include empty stars if you want
+  }
+  return value;
+};
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [customers, setCustomers] = useState([]);
@@ -160,12 +167,11 @@ const ViewCustomer = () => {
                         <td colSpan="3">
                           <table className="size-table">
                             <tbody>
-                              {Object.entries(sizeCache[key]).map(([k, v]) => (
-                                <tr key={k}>
-                                  <td className="size-key">{k}</td>
-                                  <td className="size-value">{v}</td>
-                                </tr>
-                              ))}
+{Object.entries(sizeCache[key]).map(([k, v]) => (
+  <div key={k}>
+    <b>{k}</b>: {renderStars(v)}
+  </div>
+))}
                             </tbody>
                           </table>
                         </td>
