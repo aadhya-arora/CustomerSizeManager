@@ -163,9 +163,10 @@ const ViewCustomer = () => {
 
                     {/* ✅ EXPANDED ROW */}
                     {expandedRows[key] && sizeCache[key] && (
-                      <div className="size-wrapper">
-  <table className="inner-size-table">
-                     
+                      <tr>
+                        <td colSpan="3">
+                          <div className="size-wrapper">
+                          <table className="inner-size-table">
   <tbody>
     {Object.entries(sizeCache[key]).map(([k, v]) => (
       <tr key={k}>
@@ -178,6 +179,8 @@ const ViewCustomer = () => {
   </tbody>
 </table>
 </div>
+                        </td>
+                      </tr>
                     )}
                   </React.Fragment>
                 );
