@@ -14,6 +14,15 @@ public class WaistcoatSize {
     private String customerPhoneNumber;
 
 
+    private Integer rsd;
+    private Integer lsd;
+    private Integer sd;
+    private Integer ss;
+    private Integer fitting;
+    private Integer comfort;
+    private Integer loose;
+    private Integer backRound;
+    private Integer backDown;
     private Double length;
     private Double chest;
     private Double gap;
@@ -100,5 +109,76 @@ public class WaistcoatSize {
         this.neck = neck;
     }
 
-    // Standard getters & setters
+    public Integer getBackDown() {
+        return backDown;
+    }
+
+    public void setBackDown(Integer backDown) {
+        this.backDown = backDown;
+    }
+
+    public Integer getBackRound() {
+        return backRound;
+    }
+
+    public void setBackRound(Integer backRound) {
+        this.backRound = backRound;
+    }
+
+    public Integer getComfort() {
+        return comfort;
+    }
+
+    public void setComfort(Integer comfort) {
+        this.comfort = comfort;
+    }
+
+    public Integer getFitting() {
+        return fitting;
+    }
+
+    public void setFitting(Integer fitting) {
+        this.fitting = fitting;
+    }
+
+    public Integer getLoose() {
+        return loose;
+    }
+
+    public void setLoose(Integer loose) {
+        this.loose = loose;
+    }
+
+    public Integer getLsd() {
+        return lsd;
+    }
+
+    public void setLsd(Integer lsd) {
+        this.lsd = lsd;
+    }
+
+    public Integer getRsd() {
+        return rsd;
+    }
+
+    public void setRsd(Integer rsd) {
+        this.rsd = rsd;
+    }
+
+    public Integer getSd() {
+        return sd;
+    }
+
+    public void setSd(Integer sd) {
+        this.sd = sd;
+    }
+
+    public Integer getSs() {
+        return ss;
+    }
+
+    public void setSs(Integer ss) {
+        this.ss = ss;
+    }
+// Standard getters & setters
 }

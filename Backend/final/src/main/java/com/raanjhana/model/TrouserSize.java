@@ -14,6 +14,12 @@ public class TrouserSize {
     private String customerPhoneNumber;
 
 
+    private Double frontDown;
+    private Double frontUp;
+    private Double backDown;
+    private Double fitting;
+    private Double comfort;
+    private Double shoeCut;
     private String pleats;
     private Double length;
     private Double waist;
@@ -124,5 +130,54 @@ public class TrouserSize {
         this.bottom = bottom;
     }
 
-    // Other fields same pattern
+    public Double getBackDown() {
+        return backDown;
+    }
+
+    public void setBackDown(Double backDown) {
+        this.backDown = backDown;
+    }
+
+    public Double getComfort() {
+        return comfort;
+    }
+
+    public void setComfort(Double comfort) {
+        this.comfort = comfort;
+    }
+
+    public Double getFitting() {
+        return fitting;
+    }
+
+    public void setFitting(Double fitting) {
+        this.fitting = fitting;
+    }
+
+    public Double getFrontDown() {
+        return frontDown;
+    }
+
+    public void setFrontDown(Double frontDown) {
+        this.frontDown = frontDown;
+    }
+
+    public Double getFrontUp() {
+        return frontUp;
+    }
+
+    public void setFrontUp(Double frontUp) {
+        this.frontUp = frontUp;
+    }
+
+    public Double getShoeCut() {
+        return shoeCut;
+    }
+
+    public void setShoeCut(Double shoeCut) {
+        this.shoeCut = shoeCut;
+    }
+
+
+// Other fields same pattern
 }

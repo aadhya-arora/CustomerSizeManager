@@ -1,9 +1,22 @@
 package com.raanjhana.service;
 
-import com.raanjhana.model.*;
-import com.raanjhana.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.raanjhana.model.CoatSize;
+import com.raanjhana.model.Customer;
+import com.raanjhana.model.KurtaSize;
+import com.raanjhana.model.SherwaniSize;
+import com.raanjhana.model.ShirtSize;
+import com.raanjhana.model.TrouserSize;
+import com.raanjhana.model.WaistcoatSize;
+import com.raanjhana.repository.CoatRepository;
+import com.raanjhana.repository.CustomerRepository;
+import com.raanjhana.repository.KurtaRepository;
+import com.raanjhana.repository.SherwaniRepository;
+import com.raanjhana.repository.ShirtRepository;
+import com.raanjhana.repository.TrouserRepository;
+import com.raanjhana.repository.WaistcoatRepository;
 
 @Service
 public class SizeService {
@@ -28,7 +41,7 @@ public class SizeService {
 
     @Autowired
     private CustomerRepository customerRepo;
-    
+
     private void ensureCustomerExists(String phoneNumber, String name) {
         if (phoneNumber == null || phoneNumber.trim().isEmpty()) return;
 
@@ -113,6 +126,12 @@ public class SizeService {
         TrouserSize existing = trouserRepo.findByCustomerPhoneNumber(t.getCustomerPhoneNumber());
 
         if (existing != null) {
+            if (t.getFrontDown() != null) existing.setFrontDown(t.getFrontDown());
+            if (t.getFrontUp() != null) existing.setFrontUp(t.getFrontUp());
+            if (t.getBackDown() != null) existing.setBackDown(t.getBackDown());
+            if (t.getFitting() != null) existing.setFitting(t.getFitting());
+            if (t.getComfort() != null) existing.setComfort(t.getComfort());
+            if (t.getShoeCut() != null) existing.setShoeCut(t.getShoeCut());
             if (t.getLength() != null) existing.setLength(t.getLength());
             if (t.getWaist() != null) existing.setWaist(t.getWaist());
             if (t.getIl() != null) existing.setIl(t.getIl());
@@ -135,6 +154,15 @@ public class SizeService {
         SherwaniSize existing = sherwaniRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
 
         if (existing != null) {
+            if (s.getRsd() != null) existing.setRsd(s.getRsd());
+            if (s.getLsd() != null) existing.setLsd(s.getLsd());
+            if (s.getSd() != null) existing.setSd(s.getSd());
+            if (s.getSs() != null) existing.setSs(s.getSs());
+            if (s.getFitting() != null) existing.setFitting(s.getFitting());
+            if (s.getComfort() != null) existing.setComfort(s.getComfort());
+            if (s.getLoose() != null) existing.setLoose(s.getLoose());
+            if (s.getBackRound() != null) existing.setBackRound(s.getBackRound());
+            if (s.getBackDown() != null) existing.setBackDown(s.getBackDown());
             if (s.getLength() != null) existing.setLength(s.getLength());
             if (s.getChest() != null) existing.setChest(s.getChest());
             if (s.getGap() != null) existing.setGap(s.getGap());
@@ -159,6 +187,15 @@ public class SizeService {
         ShirtSize existing = shirtRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
 
         if (existing != null) {
+            if (s.getRsd() != null) existing.setRsd(s.getRsd());
+            if (s.getLsd() != null) existing.setLsd(s.getLsd());
+            if (s.getSd() != null) existing.setSd(s.getSd());
+            if (s.getSs() != null) existing.setSs(s.getSs());
+            if (s.getFitting() != null) existing.setFitting(s.getFitting());
+            if (s.getComfort() != null) existing.setComfort(s.getComfort());
+            if (s.getLoose() != null) existing.setLoose(s.getLoose());
+            if (s.getBackRound() != null) existing.setBackRound(s.getBackRound());
+            if (s.getBackDown() != null) existing.setBackDown(s.getBackDown());
             if (s.getLength() != null) existing.setLength(s.getLength());
             if (s.getChest() != null) existing.setChest(s.getChest());
             if (s.getGap() != null) existing.setGap(s.getGap());
@@ -183,6 +220,15 @@ public class SizeService {
         CoatSize existing = coatRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
 
         if (existing != null) {
+            if (s.getRsd() != null) existing.setRsd(s.getRsd());
+            if (s.getLsd() != null) existing.setLsd(s.getLsd());
+            if (s.getSd() != null) existing.setSd(s.getSd());
+            if (s.getSs() != null) existing.setSs(s.getSs());
+            if (s.getFitting() != null) existing.setFitting(s.getFitting());
+            if (s.getComfort() != null) existing.setComfort(s.getComfort());
+            if (s.getLoose() != null) existing.setLoose(s.getLoose());
+            if (s.getBackRound() != null) existing.setBackRound(s.getBackRound());
+            if (s.getBackDown() != null) existing.setBackDown(s.getBackDown());
             if (s.getLength() != null) existing.setLength(s.getLength());
             if (s.getChest() != null) existing.setChest(s.getChest());
             if (s.getGap() != null) existing.setGap(s.getGap());
@@ -207,6 +253,15 @@ public class SizeService {
         WaistcoatSize existing = waistRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
 
         if (existing != null) {
+            if (s.getRsd() != null) existing.setRsd(s.getRsd());
+            if (s.getLsd() != null) existing.setLsd(s.getLsd());
+            if (s.getSd() != null) existing.setSd(s.getSd());
+            if (s.getSs() != null) existing.setSs(s.getSs());
+            if (s.getFitting() != null) existing.setFitting(s.getFitting());
+            if (s.getComfort() != null) existing.setComfort(s.getComfort());
+            if (s.getLoose() != null) existing.setLoose(s.getLoose());
+            if (s.getBackRound() != null) existing.setBackRound(s.getBackRound());
+            if (s.getBackDown() != null) existing.setBackDown(s.getBackDown());
             if (s.getLength() != null) existing.setLength(s.getLength());
             if (s.getChest() != null) existing.setChest(s.getChest());
             if (s.getGap() != null) existing.setGap(s.getGap());
@@ -226,6 +281,15 @@ public class SizeService {
         KurtaSize existing = kurtaRepo.findByCustomerPhoneNumber(s.getCustomerPhoneNumber());
 
         if (existing != null) {
+            if (s.getRsd() != null) existing.setRsd(s.getRsd());
+            if (s.getLsd() != null) existing.setLsd(s.getLsd());
+            if (s.getSd() != null) existing.setSd(s.getSd());
+            if (s.getSs() != null) existing.setSs(s.getSs());
+            if (s.getFitting() != null) existing.setFitting(s.getFitting());
+            if (s.getComfort() != null) existing.setComfort(s.getComfort());
+            if (s.getLoose() != null) existing.setLoose(s.getLoose());
+            if (s.getBackRound() != null) existing.setBackRound(s.getBackRound());
+            if (s.getBackDown() != null) existing.setBackDown(s.getBackDown());
             if (s.getLength() != null) existing.setLength(s.getLength());
             if (s.getChest() != null) existing.setChest(s.getChest());
             if (s.getGap() != null) existing.setGap(s.getGap());

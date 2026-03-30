@@ -4,12 +4,48 @@ import { Link } from "react-router-dom";
 import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
 import logo from "../images/logo.png";
 
+const StarRating = ({ value = 0, onChange }) => {
+  const [hover, setHover] = React.useState(0);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row", 
+        alignItems: "center",
+        gap: "6px",
+      }}
+    >
+      {[1, 2, 3].map((star) => (
+        <span
+          key={star}
+          style={{
+            fontSize: "20px",
+            cursor: "pointer",
+            color: (hover || value) >= star ? "gold" : "#ccc",
+          }}
+          onClick={() => onChange(star)}
+          onMouseEnter={() => setHover(star)}
+          onMouseLeave={() => setHover(0)}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+};
 const AddCustomerSize = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [category, setCategory] = useState("");
 
   const [trouserData, setTrouserData] = useState({
+    frontDown: "",
+frontUp: "",
+backDown: "",
+fitting: "",
+comfort: "",
+showCut: "",
     pleats: "",
     length: "",
     waist: "",
@@ -23,6 +59,15 @@ const AddCustomerSize = () => {
   });
 
   const [upperWearData, setUpperWearData] = useState({
+    rsd: 0,
+lsd: 0,
+sd: 0,
+ss: 0,
+fitting: 0,
+comfort: 0,
+loose: 0,
+backRound: 0,
+backDown: 0,
     length: "",
     chest: "",
     gap: "",
@@ -38,6 +83,15 @@ const AddCustomerSize = () => {
   });
 
   const [waistCoatData, setWaistCoatData] = useState({
+    rsd: 0,
+lsd: 0,
+sd: 0,
+ss: 0,
+fitting: 0,
+comfort: 0,
+loose: 0,
+backRound: 0,
+backDown: 0,
     length: "",
     chest: "",
     gap: "",
@@ -305,6 +359,26 @@ const AddCustomerSize = () => {
                 <option value="without pleats">Without Pleats</option>
               </select>
 
+<div className="fields-grid">
+  {[
+    "frontDown",
+    "frontUp",
+    "backDown",
+    "fitting",
+    "comfort",
+    "showCut",
+  ].map((field) => (
+    <div key={field}>
+      <label>{field}</label>
+      <input
+        type="number"
+        name={field}
+        value={trouserData[field]}
+        onChange={handleTrouserChange}
+      />
+    </div>
+  ))}
+</div>
               <div className="fields-grid">
                 {trouserFields.map((field) => (
                   <div key={field.name}>
@@ -330,6 +404,33 @@ const AddCustomerSize = () => {
                 Measurements
               </h3>
 
+
+<div className="fields-grid">
+  {[
+    "rsd",
+    "lsd",
+    "sd",
+    "ss",
+    "fitting",
+    "comfort",
+    "loose",
+    "backRound",
+    "backDown",
+  ].map((field) => (
+    <div key={field}>
+      <label>{field.toUpperCase()}</label>
+      <StarRating
+        value={upperWearData[field]}
+        onChange={(val) =>
+          setUpperWearData({
+            ...upperWearData,
+            [field]: val,
+          })
+        }
+      />
+    </div>
+  ))}
+</div>
               <div className="fields-grid">
                 {upperWearFields.map((field) => (
                   <div key={field.name}>
@@ -352,6 +453,32 @@ const AddCustomerSize = () => {
             <div className="category-section">
               <h3>Waist Coat Measurements</h3>
 
+<div className="fields-grid">
+  {[
+    "rsd",
+    "lsd",
+    "sd",
+    "ss",
+    "fitting",
+    "comfort",
+    "loose",
+    "backRound",
+    "backDown",
+  ].map((field) => (
+    <div key={field}>
+      <label>{field.toUpperCase()}</label>
+      <StarRating
+        value={upperWearData[field]}
+        onChange={(val) =>
+          setUpperWearData({
+            ...upperWearData,
+            [field]: val,
+          })
+        }
+      />
+    </div>
+  ))}
+</div>
               <div className="fields-grid">
                 {waistCoatFields.map((field) => (
                   <div key={field.name}>

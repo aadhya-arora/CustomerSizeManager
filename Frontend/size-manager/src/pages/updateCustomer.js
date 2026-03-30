@@ -4,6 +4,37 @@ import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
 import { FaFacebookF, FaInstagram, FaEnvelope } from "react-icons/fa";
 
+const StarRating = ({ value = 0, onChange }) => {
+  const [hover, setHover] = React.useState(0);
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row", 
+        alignItems: "center",
+        gap: "6px",
+      }}
+    >
+      {[1, 2, 3].map((star) => (
+        <span
+          key={star}
+          style={{
+            fontSize: "20px",
+            cursor: "pointer",
+            color: (hover || value) >= star ? "gold" : "#ccc",
+          }}
+          onClick={() => onChange(star)}
+          onMouseEnter={() => setHover(star)}
+          onMouseLeave={() => setHover(0)}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  );
+};
+
 const UpdateCustomer = () => {
   const [phone, setPhone] = useState("");
   const [category, setCategory] = useState("");
@@ -310,6 +341,27 @@ useEffect(() => {
                 <option value="Without Pleats">Without Pleats</option>
               </select>
 
+
+<div className="fields-grid">
+  {[
+    "frontDown",
+    "frontUp",
+    "backDown",
+    "fitting",
+    "comfort",
+    "showCut",
+  ].map((field) => (
+    <div key={field}>
+      <label>{field.toUpperCase()}</label>
+      <input
+        type="number"
+        name={field}
+        value={formData[field] || ""}
+        onChange={handleChange}
+      />
+    </div>
+  ))}
+</div>
               <div className="trouser-grid">
                 {[
                   "length",
@@ -340,6 +392,29 @@ useEffect(() => {
           {["Sherwani", "Kurta", "Shirt", "Coat"].includes(category) && (
             <div className="category-section">
               <h3>{category} Details</h3>
+<div className="trouser-grid">
+  {[
+    "rsd",
+    "lsd",
+    "sd",
+    "ss",
+    "fitting",
+    "comfort",
+    "loose",
+    "backRound",
+    "backDown",
+  ].map((field) => (
+    <div key={field}>
+      <label>{field.toUpperCase()}</label>
+      <StarRating
+        value={formData[field] || 0}
+        onChange={(val) =>
+          setFormData({ ...formData, [field]: val })
+        }
+      />
+    </div>
+  ))}
+</div>
               <div className="trouser-grid">
                 {[
                   "length",
