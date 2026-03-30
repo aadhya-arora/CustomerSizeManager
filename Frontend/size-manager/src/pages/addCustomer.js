@@ -369,7 +369,7 @@ backDown: 0,
     "showCut",
   ].map((field) => (
     <div key={field}>
-      <label>{field}</label>
+      <label>{field.toUpperCase()}</label>
       <input
         type="number"
         name={field}
