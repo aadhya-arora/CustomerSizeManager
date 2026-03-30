@@ -163,19 +163,18 @@ const ViewCustomer = () => {
 
                     {/* ✅ EXPANDED ROW */}
                     {expandedRows[key] && sizeCache[key] && (
-                      <tr>
-                        <td colSpan="3">
-                          <table className="size-table">
-                            <tbody>
-{Object.entries(sizeCache[key]).map(([k, v]) => (
-  <div key={k}>
-    <b>{k}</b>: {renderStars(v)}
-  </div>
-))}
-                            </tbody>
-                          </table>
-                        </td>
-                      </tr>
+                      <table className="inner-size-table">
+  <tbody>
+    {Object.entries(sizeCache[key]).map(([k, v]) => (
+      <tr key={k}>
+        <td className="label">{k.toUpperCase()}</td>
+        <td className="value">
+          {v === 0 || v === null || v === "" ? "-" : renderStars(v)}
+        </td>
+      </tr>
+    ))}
+  </tbody>
+</table>
                     )}
                   </React.Fragment>
                 );
