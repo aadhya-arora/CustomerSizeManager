@@ -198,7 +198,7 @@
 
 /* Table styling */
 .inner-size-table {
-  width: 70%;              /* 👈 controls width */
+  width: 100%;              /* 👈 controls width */
   max-width: 800px;
   border-collapse: collapse;
   margin-top: 10px;
