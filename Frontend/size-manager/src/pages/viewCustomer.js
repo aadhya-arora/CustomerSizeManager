@@ -172,7 +172,7 @@ const ViewCustomer = () => {
       <tr key={k}>
         <td className="label">{k.toUpperCase()}</td>
         <td className="value">
-          {v === 0 || v === null || v === "" ? "-" : renderStars(v)}
+         {v === null || v === "" ? "-" : v === 0 ? "0" : renderStars(v)}
         </td>
       </tr>
     ))}
