@@ -87,6 +87,7 @@ public class CustomerController {
                 }
             } catch (Exception e) {
                 System.out.println("Error fetching Trouser for " + phone);
+                e.printStackTrace(); // 🔥 VERY IMPORTANT
             }
 
             // ✅ Shirt
@@ -100,6 +101,7 @@ public class CustomerController {
                 }
             } catch (Exception e) {
                 System.out.println("Error fetching Shirt for " + phone);
+                e.printStackTrace();
             }
 
             // ✅ Coat
@@ -113,6 +115,7 @@ public class CustomerController {
                 }
             } catch (Exception e) {
                 System.out.println("Error fetching Coat for " + phone);
+                e.printStackTrace();
             }
 
             // ✅ Kurta
@@ -126,6 +129,7 @@ public class CustomerController {
                 }
             } catch (Exception e) {
                 System.out.println("Error fetching Kurta for " + phone);
+                e.printStackTrace();
             }
 
             // ✅ Sherwani
@@ -139,6 +143,7 @@ public class CustomerController {
                 }
             } catch (Exception e) {
                 System.out.println("Error fetching Sherwani for " + phone);
+                e.printStackTrace();
             }
 
             // ✅ Waistcoat
@@ -152,6 +157,7 @@ public class CustomerController {
                 }
             } catch (Exception e) {
                 System.out.println("Error fetching Waistcoat for " + phone);
+                e.printStackTrace();
             }
         }
 

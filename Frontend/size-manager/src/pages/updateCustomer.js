@@ -108,7 +108,6 @@ useEffect(() => {
    if (!phone) {
   setAvailableCategories([]);
 
-  // 🔥 show searching when typing either name OR phone
   if (searchTerm || name) {
     setLoadingSizes(true);
   } else {
@@ -349,7 +348,7 @@ useEffect(() => {
     "backDown",
     "fitting",
     "comfort",
-    "showCut",
+    "shoeCut",
   ].map((field) => (
     <div key={field}>
       <label>{field.toUpperCase()}</label>

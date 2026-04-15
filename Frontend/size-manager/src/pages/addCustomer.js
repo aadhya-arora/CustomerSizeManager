@@ -45,7 +45,7 @@ frontUp: "",
 backDown: "",
 fitting: "",
 comfort: "",
-showCut: "",
+shoeCut: "",
     pleats: "",
     length: "",
     waist: "",
@@ -135,9 +135,10 @@ backDown: 0,
     return newObj;
   };
 
+  const normalizedPhone = phoneNumber.replace(/\D/g, "");
   // ✅ Build payload
   const payload = {
-    customerPhoneNumber: phoneNumber,
+    customerPhoneNumber: normalizedPhone,
     name: customerName,
     ...(category === "trouser"
       ? cleanData(trouserData)
@@ -366,7 +367,7 @@ backDown: 0,
     "backDown",
     "fitting",
     "comfort",
-    "showCut",
+    "shoeCut",
   ].map((field) => (
     <div key={field}>
       <label>{field.toUpperCase()}</label>
