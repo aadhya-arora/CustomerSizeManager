@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(@Nonnull CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("https://customer-size-manager.vercel.app/")
+                        .allowedOrigins("*")
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*");
             }
