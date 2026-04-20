@@ -134,7 +134,14 @@ const ViewCustomer = () => {
       <div className="all-customers">
         <h2 className="table-title">Customer Size Details</h2>
 
-<div
+
+
+        {loading ? (
+          <div className="loading-container">
+            <FaSpinner className="spinner" /> Loading customers...
+          </div>
+        ) : displayedCustomers.length > 0 ? (
+          <div
   className="scroll-container"
   onScroll={(e) => {
     const { scrollTop, scrollHeight, clientHeight } = e.target;
@@ -147,12 +154,6 @@ const ViewCustomer = () => {
 }
   }}
 >
-
-        {loading ? (
-          <div className="loading-container">
-            <FaSpinner className="spinner" /> Loading customers...
-          </div>
-        ) : displayedCustomers.length > 0 ? (
           <table className="customer-table">
             <thead>
               <tr>
@@ -202,10 +203,11 @@ const ViewCustomer = () => {
               })}
             </tbody>
           </table>
+          </div>
         ) : (
           <p className="empty-row">No customers found.</p>
         )}
-        </div>
+        
       </div>
 
       {/* Footer (UNCHANGED) */}
