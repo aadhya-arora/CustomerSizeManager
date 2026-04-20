@@ -38,6 +38,7 @@ const AddCustomerSize = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [category, setCategory] = useState("");
+  const [sizesList, setSizesList] = useState([]);
 
   const [trouserData, setTrouserData] = useState({
     frontDown: "",
@@ -116,15 +117,13 @@ backDown: 0,
     setWaistCoatData({ ...waistCoatData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-  e.preventDefault();
-
+  const handleAddOneMore = () => {
   if (!phoneNumber || !category) {
-    alert("Please fill all required fields!");
-    return;
-  }
+  alert("Fill required fields first");
+  return;
+}
 
-  // ✅ Convert empty strings to null
+
   const cleanData = (obj) => {
     const newObj = {};
     Object.keys(obj).forEach((key) => {
@@ -136,102 +135,215 @@ backDown: 0,
   };
 
   const normalizedPhone = phoneNumber.replace(/\D/g, "");
-  // ✅ Build payload
-  const payload = {
-    customerPhoneNumber: normalizedPhone,
-    name: customerName,
-    ...(category === "trouser"
+
+  const data =
+    category === "trouser"
       ? cleanData(trouserData)
       : category === "waistcoat"
       ? cleanData(waistCoatData)
-      : cleanData(upperWearData)),
+      : cleanData(upperWearData);
+
+      if (Object.keys(data).length === 0) {
+  alert("Please fill at least one measurement");
+  return;
+}
+
+  const newEntry = {
+    category,
+    payload: {
+      customerPhoneNumber: normalizedPhone,
+      name: customerName,
+      ...data,
+    },
   };
+
+  setSizesList([...sizesList, newEntry]);
+
+  // reset only category + form (keep phone & name)
+  setCategory("");
+  setTrouserData({
+  frontDown: "",
+  frontUp: "",
+  backDown: "",
+  fitting: "",
+  comfort: "",
+  shoeCut: "",
+  pleats: "",
+  length: "",
+  waist: "",
+  il: "",
+  hips: "",
+  thigh: "",
+  r: "",
+  knee: "",
+  calf: "",
+  bottom: "",
+});
+
+setUpperWearData({
+  rsd: 0,
+  lsd: 0,
+  sd: 0,
+  ss: 0,
+  fitting: 0,
+  comfort: 0,
+  loose: 0,
+  backRound: 0,
+  backDown: 0,
+  length: "",
+  chest: "",
+  gap: "",
+  waist: "",
+  hips: "",
+  shoulder: "",
+  sleeve: "",
+  bicep: "",
+  elbow: "",
+  cuff: "",
+  cb: "",
+  neck: "",
+});
+
+setWaistCoatData({
+  rsd: 0,
+  lsd: 0,
+  sd: 0,
+  ss: 0,
+  fitting: 0,
+  comfort: 0,
+  loose: 0,
+  backRound: 0,
+  backDown: 0,
+  length: "",
+  chest: "",
+  gap: "",
+  waist: "",
+  hips: "",
+  shoulder: "",
+  neck: "",
+});
+};
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (sizesList.length === 0) {
+    alert("Please add at least one size first!");
+    return;
+  }
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
-  let endpoint = "";
-  switch (category) {
-    case "trouser":
-      endpoint = `${BASE_URL}/api/sizes/trouser/add`;
-      break;
-    case "kurta":
-      endpoint = `${BASE_URL}/api/sizes/kurta/add`;
-      break;
-    case "shirt":
-      endpoint = `${BASE_URL}/api/sizes/shirt/add`;
-      break;
-    case "coat":
-      endpoint = `${BASE_URL}/api/sizes/coat/add`;
-      break;
-    case "sherwani":
-      endpoint = `${BASE_URL}/api/sizes/sherwani/add`;
-      break;
-    case "waistcoat":
-      endpoint = `${BASE_URL}/api/sizes/waistcoat/add`;
-      break;
-    default:
-      alert("Invalid category");
-      return;
-  }
+  const getEndpoint = (category) => {
+    switch (category) {
+      case "trouser":
+        return `${BASE_URL}/api/sizes/trouser/add`;
+      case "kurta":
+        return `${BASE_URL}/api/sizes/kurta/add`;
+      case "shirt":
+        return `${BASE_URL}/api/sizes/shirt/add`;
+      case "coat":
+        return `${BASE_URL}/api/sizes/coat/add`;
+      case "sherwani":
+        return `${BASE_URL}/api/sizes/sherwani/add`;
+      case "waistcoat":
+        return `${BASE_URL}/api/sizes/waistcoat/add`;
+      default:
+        return null;
+    }
+  };
 
-  fetch(endpoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  })
-    .then((res) => {
-      if (!res.ok) {
-        throw new Error("Failed to add customer");
+  try {
+    for (let item of sizesList) {
+      const endpoint = getEndpoint(item.category);
+
+      if (!endpoint) {
+        alert("Invalid category in list");
+        return;
       }
-      return res.text();
-    })
-    .then(() => {
-      alert(`Size details added for ${category.toUpperCase()} of ${phoneNumber}`);
 
-      // Reset form
-      setPhoneNumber("");
-      setCustomerName("");
-      setCategory("");
-      setTrouserData({
-        pleats: "",
-        length: "",
-        waist: "",
-        il: "",
-        hips: "",
-        thigh: "",
-        r: "",
-        knee: "",
-        calf: "",
-        bottom: "",
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item.payload),
       });
-      setUpperWearData({
-        length: "",
-        chest: "",
-        gap: "",
-        waist: "",
-        hips: "",
-        shoulder: "",
-        sleeve: "",
-        bicep: "",
-        elbow: "",
-        cuff: "",
-        cb: "",
-        neck: "",
-      });
-      setWaistCoatData({
-        length: "",
-        chest: "",
-        gap: "",
-        waist: "",
-        hips: "",
-        shoulder: "",
-        neck: "",
-      });
-    })
-    .catch((err) => {
-      console.error("Error adding customer:", err);
-      alert("Failed to add customer. Please try again.");
-    });
+
+      if (!res.ok) {
+        throw new Error("Failed to add one of the sizes");
+      }
+    }
+
+    alert("All sizes added successfully!");
+
+    setSizesList([]);
+    setPhoneNumber("");
+    setCustomerName("");
+    setCategory("");
+    setTrouserData({
+  frontDown: "",
+  frontUp: "",
+  backDown: "",
+  fitting: "",
+  comfort: "",
+  shoeCut: "",
+  pleats: "",
+  length: "",
+  waist: "",
+  il: "",
+  hips: "",
+  thigh: "",
+  r: "",
+  knee: "",
+  calf: "",
+  bottom: "",
+});
+
+setUpperWearData({
+  rsd: 0,
+  lsd: 0,
+  sd: 0,
+  ss: 0,
+  fitting: 0,
+  comfort: 0,
+  loose: 0,
+  backRound: 0,
+  backDown: 0,
+  length: "",
+  chest: "",
+  gap: "",
+  waist: "",
+  hips: "",
+  shoulder: "",
+  sleeve: "",
+  bicep: "",
+  elbow: "",
+  cuff: "",
+  cb: "",
+  neck: "",
+});
+
+setWaistCoatData({
+  rsd: 0,
+  lsd: 0,
+  sd: 0,
+  ss: 0,
+  fitting: 0,
+  comfort: 0,
+  loose: 0,
+  backRound: 0,
+  backDown: 0,
+  length: "",
+  chest: "",
+  gap: "",
+  waist: "",
+  hips: "",
+  shoulder: "",
+  neck: "",
+});
+  } catch (err) {
+    console.error("Error:", err);
+    alert("Failed to add all sizes. Please try again.");
+  }
 };
   const upperWearFields = [
     { label: "Length", name: "length" },
@@ -498,9 +610,35 @@ backDown: 0,
             </div>
           )}
 
-          <button type="submit" className="add-size-button">
-            Add Size
-          </button>
+        <div className="added-sizes-container">
+  {sizesList.map((item, index) => (
+    <div key={index} className="size-box">
+      <h4>{item.category.toUpperCase()}</h4>
+      {Object.entries(item.payload).map(([k, v]) => (
+        <p key={k}>
+          <b>{k}:</b> {v}
+        </p>
+      ))}
+    </div>
+  ))}
+</div>
+
+         <div style={{ display: "flex", gap: "10px" }}>
+  <button
+    type="button"
+    onClick={handleAddOneMore}
+    className="add-size-button"
+  >
+    Add One More Size
+  </button>
+
+  <button
+    type="submit"
+    className="add-size-button"
+  >
+    Add All
+  </button>
+</div>
         </form>
       </div>
 

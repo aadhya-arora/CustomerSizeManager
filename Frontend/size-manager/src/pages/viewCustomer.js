@@ -161,7 +161,6 @@ const ViewCustomer = () => {
                       <td>{cust.category}</td>
                     </tr>
 
-                    {/* ✅ EXPANDED ROW */}
                     {expandedRows[key] && sizeCache[key] && (
                       <tr>
                         <td colSpan="3">
