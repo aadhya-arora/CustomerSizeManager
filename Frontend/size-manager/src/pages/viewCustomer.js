@@ -24,7 +24,6 @@ const ViewCustomer = () => {
   const [loading, setLoading] = useState(true);
   const [expandedRows, setExpandedRows] = useState({});
   const [sizeCache, setSizeCache] = useState({});
-  const [visibleCount, setVisibleCount] = useState(4);
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
@@ -58,10 +57,7 @@ const ViewCustomer = () => {
         return matchesSearch && matchesCategory;
       })
     : [];
- const displayedCustomers =
-  searchTerm.trim() === ""
-    ? filteredCustomers.slice(0, visibleCount)
-    : filteredCustomers;
+ const displayedCustomers = filteredCustomers;
 
   const handleRowClick = (cust) => {
     const key = cust.phoneNumber + cust.category;
@@ -141,19 +137,7 @@ const ViewCustomer = () => {
             <FaSpinner className="spinner" /> Loading customers...
           </div>
         ) : displayedCustomers.length > 0 ? (
-          <div
-  className="scroll-container"
-  onScroll={(e) => {
-    const { scrollTop, scrollHeight, clientHeight } = e.target;
-
-    if (
-  scrollTop + clientHeight >= scrollHeight - 10 &&
-  visibleCount < filteredCustomers.length
-) {
-  setVisibleCount((prev) => prev + 4);
-}
-  }}
->
+          <div className="scroll-container">
           <table className="customer-table">
             <thead>
               <tr>
