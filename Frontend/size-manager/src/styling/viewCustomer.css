@@ -203,7 +203,7 @@
 }
 
 .scroll-container {
-  height: 200px;       /* adjust as needed */
+  height: 280px;       /* adjust as needed */
   overflow-y: auto;
   border: 1px solid #ddd;
   border-radius: 8px;
