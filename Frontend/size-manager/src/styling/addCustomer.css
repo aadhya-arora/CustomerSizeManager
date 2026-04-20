@@ -47,6 +47,18 @@
   margin-bottom: 15px;
 }
 
+.size-box {
+  transition: all 0.3s ease;
+}
+
+.size-box {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fafafa;
+}
+
 /* SIZE CARD */
 .size-card {
   background: black;

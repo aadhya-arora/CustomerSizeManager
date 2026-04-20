@@ -39,6 +39,7 @@ const AddCustomerSize = () => {
   const [customerName, setCustomerName] = useState("");
   const [category, setCategory] = useState("");
   const [sizesList, setSizesList] = useState([]);
+  const [expandedIndex, setExpandedIndex] = useState(null);
 
   const [trouserData, setTrouserData] = useState({
     frontDown: "",
@@ -611,16 +612,42 @@ setWaistCoatData({
           )}
 
         <div className="added-sizes-container">
-  {sizesList.map((item, index) => (
-    <div key={index} className="size-box">
-      <h4>{item.category.toUpperCase()}</h4>
-      {Object.entries(item.payload).map(([k, v]) => (
-        <p key={k}>
-          <b>{k}:</b> {v}
-        </p>
-      ))}
-    </div>
-  ))}
+  {sizesList.map((item, index) => {
+    const isOpen = expandedIndex === index;
+
+    return (
+      <div key={index} className="size-box">
+        
+        {/* Header (clickable) */}
+        <div
+          onClick={() =>
+            setExpandedIndex(isOpen ? null : index)
+          }
+          style={{
+            cursor: "pointer",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            fontWeight: "bold",
+          }}
+        >
+          <span>{item.category.toUpperCase()}</span>
+          <span>{isOpen ? "▲" : "▼"}</span>
+        </div>
+
+        {/* Expandable content */}
+        {isOpen && (
+          <div style={{ marginTop: "10px" }}>
+            {Object.entries(item.payload).map(([k, v]) => (
+              <p key={k}>
+                <b>{k}:</b> {v}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  })}
 </div>
 
          <div style={{ display: "flex", gap: "10px" }}>
