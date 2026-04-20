@@ -203,10 +203,9 @@
 }
 
 .scroll-container {
-  height: 400px;       /* adjust as needed */
+  height: 350px;       /* adjust as needed */
   overflow-y: auto;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+
 }
 
 /* CELLS */
