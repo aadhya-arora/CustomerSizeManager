@@ -155,12 +155,6 @@ const handleRowClick = (cust) => {
             </thead>
 
             <tbody>
-              {displayedCustomers.map((cust, index) => {
-                const key = cust.phoneNumber + cust.category;
-
-                return (
-                 <React.Fragment key={cust.phoneNumber + cust.category}>
-                   <tbody>
   {displayedCustomers.map((cust) => (
     <tr
       key={cust.phoneNumber + cust.category}
@@ -173,11 +167,6 @@ const handleRowClick = (cust) => {
     </tr>
   ))}
 </tbody>
-
-                  </React.Fragment>
-                );
-              })}
-            </tbody>
           </table>
           </div>
         ) : (
