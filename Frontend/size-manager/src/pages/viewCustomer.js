@@ -29,7 +29,9 @@ const ViewCustomer = () => {
 const navigate = useNavigate();
 
 const handleRowClick = (cust) => {
-  navigate(`/customer/${cust.phoneNumber}/${cust.category}`);
+  navigate(`/customer/${cust.phoneNumber}/${cust.category}`, {
+    state: { name: cust.name }
+  });
 };
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";

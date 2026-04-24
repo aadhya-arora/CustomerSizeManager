@@ -7,6 +7,9 @@ const CustomerDetails = () => {
   const { phone, category } = useParams();
   const [data, setData] = useState(null);
 
+  const location = useLocation();
+const name = location.state?.name;
+
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
   useEffect(() => {
@@ -32,6 +35,7 @@ return (
       </div>
 
       <div className="customer-info">
+        <div><strong>Name:</strong> {name || "Unknown"}</div>
         <div><strong>Phone:</strong> {phone}</div>
         <div><strong>Category:</strong> {category}</div>
       </div>
