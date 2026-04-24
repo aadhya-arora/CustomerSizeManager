@@ -13,18 +13,18 @@ import { useNavigate } from "react-router-dom";
 
 
 const ViewCustomer = () => {
-  const renderStars = (value) => {
-  if (typeof value === "number" && value > 0 && value <= 3) {
-    return "★".repeat(value); // or include empty stars if you want
-  }
-  return value;
-};
+//   const renderStars = (value) => {
+//   if (typeof value === "number" && value > 0 && value <= 3) {
+//     return "★".repeat(value); // or include empty stars if you want
+//   }
+//   return value;
+// };
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [customers, setCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expandedRows, setExpandedRows] = useState({});
-  const [sizeCache, setSizeCache] = useState({});
+  // const [expandedRows, setExpandedRows] = useState({});
+  // const [sizeCache, setSizeCache] = useState({});
 
 const navigate = useNavigate();
 
@@ -159,15 +159,20 @@ const handleRowClick = (cust) => {
                 const key = cust.phoneNumber + cust.category;
 
                 return (
-                  <React.Fragment key={index}>
-                    <tr
-                      className="clickable-row"
-                      onClick={() => handleRowClick(cust)}
-                    >
-                      <td>{cust.name}</td>
-                      <td>{cust.phoneNumber}</td>
-                      <td>{cust.category}</td>
-                    </tr>
+                 <React.Fragment key={cust.phoneNumber + cust.category}>
+                   <tbody>
+  {displayedCustomers.map((cust) => (
+    <tr
+      key={cust.phoneNumber + cust.category}
+      className="clickable-row"
+      onClick={() => handleRowClick(cust)}
+    >
+      <td>{cust.name}</td>
+      <td>{cust.phoneNumber}</td>
+      <td>{cust.category}</td>
+    </tr>
+  ))}
+</tbody>
 
                   </React.Fragment>
                 );
