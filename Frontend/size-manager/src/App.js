@@ -4,6 +4,7 @@ import Home from './pages/home';
 import AddCustomer from "./pages/addCustomer";
 import UpdateCustomer from "./pages/updateCustomer";
 import ViewCustomer from "./pages/viewCustomer";
+import CustomerDetails from "./pages/customerDetails";
 function App() {
   return (
     <Router>
@@ -12,6 +13,7 @@ function App() {
         <Route path="/add-size" element={<AddCustomer />} />
         <Route path="/update-customer" element={<UpdateCustomer />} />
         <Route path="/view-customer" element={<ViewCustomer />} />
+        <Route path="/customer/:phone/:category" element={<CustomerDetails />} />
       </Routes>
     </Router>
   );

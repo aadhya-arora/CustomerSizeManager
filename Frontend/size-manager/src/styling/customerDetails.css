@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Zalando+Sans+SemiExpanded:ital,wght@0,200..900;1,200..900&display=swap');
+
+.details-page {
+  min-height: 100vh;
+  font-family: "Zalando Sans SemiExpanded", sans-serif;
+  padding: 40px;
+  background: #f5f5f5;
+}
+
+/* HEADER */
+.details-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.details-header h2 {
+  font-size: 1.8rem;
+  color: black;
+}
+
+/* CARD */
+.details-card {
+  max-width: 800px;
+  margin: auto;
+  background: #111;
+  color: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+/* CUSTOMER INFO */
+.customer-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 15px;
+}
+
+.customer-info div {
+  font-size: 14px;
+  color: #ccc;
+}
+
+/* TABLE */
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.details-table tr {
+  border-bottom: 1px solid #333;
+}
+
+.details-table td {
+  padding: 12px 10px;
+}
+
+/* LEFT LABEL */
+.details-key {
+  color: #aaa;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 1px;
+}
+
+/* RIGHT VALUE */
+.details-value {
+  text-align: right;
+  color: gold;
+  font-weight: 500;
+}
+
+/* LOADING */
+.details-loading {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+
+/* BACK BUTTON */
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  background: black;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  background: white;
+  color: black;
+  border: 1px solid black;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .details-card {
+    padding: 15px;
+  }
+
+  .customer-info {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .details-table td {
+    font-size: 14px;
+  }
+}

@@ -9,6 +9,7 @@ import {
 import "../styling/viewCustomer.css";
 import { Link } from "react-router-dom";
 import logo from "../images/logo.png";
+import { useNavigate } from "react-router-dom";
 
 
 const ViewCustomer = () => {
@@ -24,6 +25,12 @@ const ViewCustomer = () => {
   const [loading, setLoading] = useState(true);
   const [expandedRows, setExpandedRows] = useState({});
   const [sizeCache, setSizeCache] = useState({});
+
+const navigate = useNavigate();
+
+const handleRowClick = (cust) => {
+  navigate(`/customer/${cust.phoneNumber}/${cust.category}`);
+};
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
@@ -59,28 +66,28 @@ const ViewCustomer = () => {
     : [];
  const displayedCustomers = filteredCustomers;
 
-  const handleRowClick = (cust) => {
-    const key = cust.phoneNumber + cust.category;
+  // const handleRowClick = (cust) => {
+  //   const key = cust.phoneNumber + cust.category;
 
-    if (expandedRows[key]) {
-      setExpandedRows((prev) => ({ ...prev, [key]: false }));
-      return;
-    }
+  //   if (expandedRows[key]) {
+  //     setExpandedRows((prev) => ({ ...prev, [key]: false }));
+  //     return;
+  //   }
 
-    setExpandedRows((prev) => ({ ...prev, [key]: true }));
+  //   setExpandedRows((prev) => ({ ...prev, [key]: true }));
 
-    if (!sizeCache[key]) {
-      const endpoint = `${BASE_URL}/api/sizes/${cust.category.toLowerCase()}/${cust.phoneNumber}`;
-      fetch(endpoint)
-        .then((res) => res.json())
-        .then((data) => {
-          setSizeCache((prev) => ({ ...prev, [key]: data }));
-        })
-        .catch((err) =>
-          console.error("Error fetching size details:", err)
-        );
-    }
-  };
+  //   if (!sizeCache[key]) {
+  //     const endpoint = `${BASE_URL}/api/sizes/${cust.category.toLowerCase()}/${cust.phoneNumber}`;
+  //     fetch(endpoint)
+  //       .then((res) => res.json())
+  //       .then((data) => {
+  //         setSizeCache((prev) => ({ ...prev, [key]: data }));
+  //       })
+  //       .catch((err) =>
+  //         console.error("Error fetching size details:", err)
+  //       );
+  //   }
+  // };
 
   return (
     <div className="page-container">
@@ -162,26 +169,6 @@ const ViewCustomer = () => {
                       <td>{cust.category}</td>
                     </tr>
 
-                    {expandedRows[key] && sizeCache[key] && (
-                      <tr>
-                        <td colSpan="3">
-                          <div className="size-wrapper">
-                          <table className="inner-size-table">
-  <tbody>
-    {Object.entries(sizeCache[key]).map(([k, v]) => (
-      <tr key={k}>
-        <td className="label">{k.toUpperCase()}</td>
-        <td className="value">
-         {v === null || v === "" ? "-" : v === 0 ? "0" : renderStars(v)}
-        </td>
-      </tr>
-    ))}
-  </tbody>
-</table>
-</div>
-                        </td>
-                      </tr>
-                    )}
                   </React.Fragment>
                 );
               })}
