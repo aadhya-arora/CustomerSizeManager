@@ -40,6 +40,7 @@ const AddCustomerSize = () => {
   const [category, setCategory] = useState("");
   const [sizesList, setSizesList] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const [trouserData, setTrouserData] = useState({
     frontDown: "",
@@ -122,6 +123,15 @@ backDown: 0,
   const handleAddOneMore = () => {
   if (!phoneNumber || !category) {
   alert("Fill required fields first");
+  return;
+}
+
+ const alreadyExists = sizesList.some(
+  (item) => item.category === category
+);
+
+if (alreadyExists) {
+  alert(`${category.toUpperCase()} already added!`);
   return;
 }
 
@@ -228,11 +238,14 @@ setWaistCoatData({
 
   const handleSubmit = async (e) => {
   e.preventDefault();
+  if (loading) return;
 
   if (sizesList.length === 0) {
     alert("Please add at least one size first!");
     return;
   }
+
+  setLoading(true);
 
   const BASE_URL = "https://raanjhana-backend.onrender.com";
 
@@ -346,6 +359,9 @@ setWaistCoatData({
     console.error("Error:", err);
     alert("Failed to add all sizes. Please try again.");
   }
+  finally {
+    setLoading(false);
+  }
 };
   const upperWearFields = [
     { label: "Length", name: "length" },
@@ -442,20 +458,55 @@ setWaistCoatData({
 
           <label htmlFor="category">Select Category</label>
           <select
-            id="category"
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            required
-            className="select-category"
-          >
-            <option value="">-- Select Category --</option>
-            <option value="trouser">Trouser</option>
-            <option value="sherwani">Sherwani</option>
-            <option value="kurta">Kurta</option>
-            <option value="shirt">Shirt</option>
-            <option value="coat">Coat</option>
-            <option value="waistcoat">Waist Coat</option>
-          </select>
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+  required
+  className="select-category"
+>
+  <option value="">-- Select Category --</option>
+
+  <option
+    value="trouser"
+    disabled={sizesList.some(s => s.category === "trouser")}
+  >
+    Trouser
+  </option>
+
+  <option
+    value="shirt"
+    disabled={sizesList.some(s => s.category === "shirt")}
+  >
+    Shirt
+  </option>
+
+  <option
+    value="kurta"
+    disabled={sizesList.some(s => s.category === "kurta")}
+  >
+    Kurta
+  </option>
+
+  <option
+    value="coat"
+    disabled={sizesList.some(s => s.category === "coat")}
+  >
+    Coat
+  </option>
+
+  <option
+    value="sherwani"
+    disabled={sizesList.some(s => s.category === "sherwani")}
+  >
+    Sherwani
+  </option>
+
+  <option
+    value="waistcoat"
+    disabled={sizesList.some(s => s.category === "waistcoat")}
+  >
+    Waistcoat
+  </option>
+</select>
 
           {category === "trouser" && (
             <div className="category-section">
@@ -662,11 +713,12 @@ setWaistCoatData({
   </button>
 
   <button
-    type="submit"
-    className="add-size-button"
-  >
-    Add All
-  </button>
+  type="submit"
+  className="add-size-button"
+  disabled={loading}
+>
+  {loading ? "Adding..." : "Add All"}
+</button>
 </div>
         </form>
       </div>
