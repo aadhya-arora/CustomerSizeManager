@@ -187,6 +187,7 @@ if (alreadyExists) {
   hips: "",
   thigh: "",
   r: "",
+  r1: "",
   knee: "",
   calf: "",
   bottom: "",
@@ -240,7 +241,52 @@ setWaistCoatData({
   e.preventDefault();
   if (loading) return;
 
-  if (sizesList.length === 0) {
+  if (!phoneNumber || !customerName) {
+  alert("Phone number and name are required!");
+  return;
+}
+
+  const cleanData = (obj) => {
+    const newObj = {};
+    Object.keys(obj).forEach((key) => {
+      if (obj[key] !== "") {
+        newObj[key] = obj[key];
+      }
+    });
+    return newObj;
+  };
+
+  let finalList = [...sizesList];
+
+  // 👉 Include current form data automatically
+  if (category) {
+    const data =
+      category === "trouser"
+        ? cleanData(trouserData)
+        : category === "waistcoat"
+        ? cleanData(waistCoatData)
+        : cleanData(upperWearData);
+
+    if (Object.keys(data).length > 0) {
+      const alreadyExists = finalList.some(
+        (item) => item.category === category
+      );
+
+      if (!alreadyExists) {
+        finalList.push({
+          category,
+          payload: {
+            customerPhoneNumber: phoneNumber.replace(/\D/g, ""),
+            name: customerName,
+            ...data,
+          },
+        });
+      }
+    }
+  }
+
+  // 🚫 Now check final list (NOT sizesList)
+  if (finalList.length === 0) {
     alert("Please add at least one size first!");
     return;
   }
@@ -269,97 +315,101 @@ setWaistCoatData({
   };
 
   try {
-    for (let item of sizesList) {
-      const endpoint = getEndpoint(item.category);
+    await Promise.all(
+  finalList.map(async (item) => {
+    const endpoint = getEndpoint(item.category);
 
-      if (!endpoint) {
-        alert("Invalid category in list");
-        return;
-      }
-
-      const res = await fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item.payload),
-      });
-
-      if (!res.ok) {
-        throw new Error("Failed to add one of the sizes");
-      }
+    if (!endpoint) {
+      throw new Error("Invalid category");
     }
+
+    const res = await fetch(endpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(item.payload),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to add one of the sizes");
+    }
+  })
+);
 
     alert("All sizes added successfully!");
 
+    // ✅ Reset everything
     setSizesList([]);
     setPhoneNumber("");
     setCustomerName("");
     setCategory("");
+
     setTrouserData({
-  frontDown: "",
-  frontUp: "",
-  backDown: "",
-  fitting: "",
-  comfort: "",
-  shoeCut: "",
-  pleats: "",
-  length: "",
-  waist: "",
-  il: "",
-  hips: "",
-  thigh: "",
-  r: "",
-  knee: "",
-  calf: "",
-  bottom: "",
-});
+      frontDown: "",
+      frontUp: "",
+      backDown: "",
+      fitting: "",
+      comfort: "",
+      shoeCut: "",
+      pleats: "",
+      length: "",
+      waist: "",
+      il: "",
+      hips: "",
+      thigh: "",
+      r: "",
+      r1: "",
+      knee: "",
+      calf: "",
+      bottom: "",
+    });
 
-setUpperWearData({
-  rsd: 0,
-  lsd: 0,
-  sd: 0,
-  ss: 0,
-  fitting: 0,
-  comfort: 0,
-  loose: 0,
-  backRound: 0,
-  backDown: 0,
-  length: "",
-  chest: "",
-  gap: "",
-  waist: "",
-  hips: "",
-  shoulder: "",
-  sleeve: "",
-  bicep: "",
-  elbow: "",
-  cuff: "",
-  cb: "",
-  neck: "",
-});
+    setUpperWearData({
+      rsd: 0,
+      lsd: 0,
+      sd: 0,
+      ss: 0,
+      fitting: 0,
+      comfort: 0,
+      loose: 0,
+      backRound: 0,
+      backDown: 0,
+      length: "",
+      chest: "",
+      gap: "",
+      waist: "",
+      hips: "",
+      shoulder: "",
+      sleeve: "",
+      bicep: "",
+      elbow: "",
+      cuff: "",
+      cb: "",
+      neck: "",
+    });
 
-setWaistCoatData({
-  rsd: 0,
-  lsd: 0,
-  sd: 0,
-  ss: 0,
-  fitting: 0,
-  comfort: 0,
-  loose: 0,
-  backRound: 0,
-  backDown: 0,
-  length: "",
-  chest: "",
-  gap: "",
-  waist: "",
-  hips: "",
-  shoulder: "",
-  neck: "",
-});
+    setWaistCoatData({
+      rsd: 0,
+      lsd: 0,
+      sd: 0,
+      ss: 0,
+      fitting: 0,
+      comfort: 0,
+      loose: 0,
+      backRound: 0,
+      backDown: 0,
+      length: "",
+      chest: "",
+      gap: "",
+      waist: "",
+      hips: "",
+      shoulder: "",
+      neck: "",
+    });
+
   } catch (err) {
     console.error("Error:", err);
     alert("Failed to add all sizes. Please try again.");
-  }
-  finally {
+  } finally {
     setLoading(false);
   }
 };
