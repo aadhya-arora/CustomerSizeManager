@@ -138,6 +138,7 @@ public class SizeService {
             if (t.getHips() != null) existing.setHips(t.getHips());
             if (t.getThigh() != null) existing.setThigh(t.getThigh());
             if (t.getR() != null) existing.setR(t.getR());
+            if (t.getR1() != null) existing.setR1(t.getR1());
             if (t.getKnee() != null) existing.setKnee(t.getKnee());
             if (t.getCalf() != null) existing.setCalf(t.getCalf());
             if (t.getBottom() != null) existing.setBottom(t.getBottom());

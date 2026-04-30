@@ -369,6 +369,7 @@ useEffect(() => {
                   "hips",
                   "thigh",
                   "r",
+                  "r1",
                   "knee",
                   "calf",
                   "bottom",

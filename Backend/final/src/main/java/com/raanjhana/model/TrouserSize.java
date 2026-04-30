@@ -27,6 +27,7 @@ public class TrouserSize {
     private Double hips;
     private Double thigh;
     private Double r;
+    private Double r1;
     private Double knee;
     private Double calf;
     private Double bottom;
@@ -128,6 +129,14 @@ public class TrouserSize {
 
     public void setBottom(Double bottom) {
         this.bottom = bottom;
+    }
+
+    public Double getR1() {
+        return r1;
+    }
+
+    public void setR1(Double r1) {
+        this.r1 = r1;
     }
 
     public Double getBackDown() {
