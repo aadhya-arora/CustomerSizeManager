@@ -61,29 +61,6 @@ const UpdateCustomer = () => {
       .catch((err) => console.error(err));
   }, []);
 
-//  useEffect(() => {
-//   if (!phone || isSelecting) return;
-
-//   const match = customers.find(
-//     (cust) => cust.phoneNumber === phone
-//   );
-
-//   if (match && match.name !== name) {
-//     setName(match.name);
-//   }
-// }, [phone, customers, name, isSelecting]);
-
-//  useEffect(() => {
-//   if (!name || isSelecting) return;
-
-//   const match = customers.find(
-//     (cust) => cust.name?.toLowerCase() === name.toLowerCase()
-//   );
-
-//   if (match && match.phoneNumber !== phone) {
-//     setPhone(match.phoneNumber);
-//   }
-// }, [name, customers, phone, isSelecting]);
 
 useEffect(() => {
   if (isSelecting) {
@@ -150,6 +127,49 @@ useEffect(() => {
       setLoadingSizes(false);
     });
   }, [phone, searchTerm, name]);
+
+  const availableCategoryNames = availableCategories.map(
+  (c) => c.category.toLowerCase()
+);
+useEffect(() => {
+  if (
+    category &&
+    !availableCategoryNames.includes(category.toLowerCase())
+  ) {
+    setCategory("");
+  }
+}, [availableCategories]);
+
+useEffect(() => {
+  if (!category || !phone) return;
+
+  setFormData({});
+
+  const BASE_URL = "https://raanjhana-backend.onrender.com";
+
+  fetch(`${BASE_URL}/api/sizes/${category.toLowerCase()}/${phone}`)
+    .then((res) => res.json())
+    .then((data) => {
+      if (!data) return;
+
+      const { id, customerPhoneNumber, ...cleaned } = data;
+
+      setFormData(cleaned);
+
+      // 👉 only for trouser
+      if (category.toLowerCase() === "trouser") {
+        setTrouserType(data.pleats || "");
+      }
+    })
+    .catch((err) => console.error(err));
+}, [category, phone]);
+
+useEffect(() => {
+  if (!category) {
+    setFormData({});
+    setTrouserType("");
+  }
+}, [category]);
 
   // ✅ EXPAND CATEGORY
   const handleExpand = (cat) => {
@@ -314,19 +334,37 @@ useEffect(() => {
             {/* CATEGORY */}
             <label>Select Category</label>
             <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              required
-              className="select-category"
-            >
-              <option value="">-- Select Category --</option>
-              <option value="Trouser">Trouser</option>
-              <option value="Sherwani">Sherwani</option>
-              <option value="Kurta">Kurta</option>
-              <option value="Shirt">Shirt</option>
-              <option value="Coat">Coat</option>
-              <option value="Waistcoat">Waist Coat</option>
-            </select>
+  value={category}
+  onChange={(e) => setCategory(e.target.value)}
+  required
+  className="select-category"
+>
+  <option value="">-- Select Category --</option>
+
+  <option value="Trouser" disabled={!availableCategoryNames.includes("trouser")}>
+    Trouser
+  </option>
+
+  <option value="Sherwani" disabled={!availableCategoryNames.includes("sherwani")}>
+    Sherwani
+  </option>
+
+  <option value="Kurta" disabled={!availableCategoryNames.includes("kurta")}>
+    Kurta
+  </option>
+
+  <option value="Shirt" disabled={!availableCategoryNames.includes("shirt")}>
+    Shirt
+  </option>
+
+  <option value="Coat" disabled={!availableCategoryNames.includes("coat")}>
+    Coat
+  </option>
+
+  <option value="Waistcoat" disabled={!availableCategoryNames.includes("waistcoat")}>
+    Waist Coat
+  </option>
+</select>
           {category === "Trouser" && (
             <div className="category-section">
               <h3>Trouser Details</h3>
@@ -407,7 +445,7 @@ useEffect(() => {
     <div key={field}>
       <label>{field.toUpperCase()}</label>
       <StarRating
-        value={formData[field] || 0}
+        value={formData[field] ?? 0}
         onChange={(val) =>
           setFormData({ ...formData, [field]: val })
         }
