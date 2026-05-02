@@ -134,12 +134,13 @@ useEffect(() => {
 useEffect(() => {
   if (
     category &&
-    !availableCategoryNames.includes(category.toLowerCase())
+    !availableCategories
+      .map((c) => c.category.toLowerCase())
+      .includes(category.toLowerCase())
   ) {
     setCategory("");
   }
-}, [availableCategories, availableCategoryNames, category]);
-
+}, [availableCategories, category]);
 useEffect(() => {
   if (!category || !phone) return;
 
