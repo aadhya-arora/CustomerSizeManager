@@ -138,7 +138,7 @@ useEffect(() => {
   ) {
     setCategory("");
   }
-}, [availableCategories]);
+}, [availableCategories, availableCategoryNames, category]);
 
 useEffect(() => {
   if (!category || !phone) return;
