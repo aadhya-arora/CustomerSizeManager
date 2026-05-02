@@ -24,7 +24,7 @@ const StarRating = ({ value = 0, onChange }) => {
             cursor: "pointer",
             color: (hover || value) >= star ? "gold" : "#ccc",
           }}
-          onClick={() => onChange(star)}
+          onClick={() => onChange(value === star ? 0 : star)}
           onMouseEnter={() => setHover(star)}
           onMouseLeave={() => setHover(0)}
         >
